@@ -488,6 +488,7 @@
       let audioUnlocked = false;
       const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
       const audioDebug = true;
+      const useWavOnIOS = isIOS;
 
       function logAudio(...args) {
         if (!audioDebug) return;
@@ -510,6 +511,59 @@
         } catch (e) {
           logAudio("debugBeep: failed", e);
         }
+      }
+
+      function createSineBuffer(freq) {
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.sin((2 * Math.PI * freq * i) / ctx.sampleRate) * 0.4;
+        }
+        return buffer;
+      }
+
+      function createNatureBuffer(type) {
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          let sample = 0;
+
+          switch (type) {
+            case "wind":
+              sample = (Math.random() * 2 - 1) * 0.25;
+              sample *= 0.5 + Math.sin(i * 0.0003) * 0.5;
+              break;
+            case "fireplace":
+              const crackle =
+                Math.random() < 0.05 ? (Math.random() * 2 - 1) * 0.4 : 0;
+              const base = Math.sin(i * 0.001) * 0.2;
+              sample = crackle + base;
+              break;
+            case "forest":
+              const wind = (Math.random() * 2 - 1) * 0.15;
+              const bird = Math.random() < 0.003 ? Math.sin(i * 0.01) * 0.2 : 0;
+              sample = wind + bird;
+              break;
+            case "stream":
+              const water = (Math.random() * 2 - 1) * 0.3;
+              const rhythm = Math.sin(i * 0.002) * 0.1;
+              sample = water + rhythm;
+              break;
+            case "thunder":
+              const thunder =
+                Math.random() < 0.001 ? (Math.random() * 2 - 1) * 0.6 : 0;
+              const rumble = Math.sin(i * 0.0002) * 0.15;
+              sample = thunder + rumble;
+              break;
+          }
+
+          data[i] = sample;
+        }
+
+        return buffer;
       }
 
       function init() {
@@ -794,6 +848,75 @@
         }, 3000);
       }
 
+      function bufferToWavBlob(buffer) {
+        const numChannels = buffer.numberOfChannels;
+        const sampleRate = buffer.sampleRate;
+        const numFrames = buffer.length;
+        const dataLength = numFrames * numChannels * 2;
+        const wavBuffer = new ArrayBuffer(44 + dataLength);
+        const view = new DataView(wavBuffer);
+
+        const writeString = (offset, str) => {
+          for (let i = 0; i < str.length; i++) {
+            view.setUint8(offset + i, str.charCodeAt(i));
+          }
+        };
+
+        writeString(0, "RIFF");
+        view.setUint32(4, 36 + dataLength, true);
+        writeString(8, "WAVE");
+        writeString(12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numChannels * 2, true);
+        view.setUint16(32, numChannels * 2, true);
+        view.setUint16(34, 16, true);
+        writeString(36, "data");
+        view.setUint32(40, dataLength, true);
+
+        const channels = [];
+        for (let i = 0; i < numChannels; i++) {
+          channels.push(buffer.getChannelData(i));
+        }
+
+        let offset = 44;
+        for (let i = 0; i < numFrames; i++) {
+          for (let ch = 0; ch < numChannels; ch++) {
+            let sample = channels[ch][i];
+            sample = Math.max(-1, Math.min(1, sample));
+            view.setInt16(
+              offset,
+              sample < 0 ? sample * 0x8000 : sample * 0x7fff,
+              true
+            );
+            offset += 2;
+          }
+        }
+
+        return new Blob([view], { type: "audio/wav" });
+      }
+
+      function playBufferAsWav(buffer, label) {
+        stopAll();
+        const audio = new Audio();
+        const blob = bufferToWavBlob(buffer);
+        const url = URL.createObjectURL(blob);
+        audio.src = url;
+        audio.loop = true;
+        audio.volume = currentVolume;
+        audio.preload = "auto";
+        audio.play().then(() => {
+          logAudio("HTMLAudio(wav): play started", label);
+        }).catch((error) => {
+          showNotification("오디오 재생에 실패했습니다. 볼륨을 확인해주세요.");
+          console.error("Audio play error:", error);
+        });
+        source = audio;
+        showStatus(label);
+      }
+
       function createNoiseBuffer(type) {
         const bufferSize = ctx.sampleRate * 2;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -841,6 +964,13 @@
 
       function playNoise(type) {
         logAudio("playNoise", { type });
+        if (useWavOnIOS) {
+          init();
+          const buffer = createNoiseBuffer(type);
+          const label = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+          playBufferAsWav(buffer, label);
+          return;
+        }
         withAudioContext(() => {
           debugBeep();
           const buffer = createNoiseBuffer(type);
@@ -864,6 +994,12 @@
 
       function playLow() {
         logAudio("playLow");
+        if (useWavOnIOS) {
+          init();
+          const buffer = createSineBuffer(60);
+          playBufferAsWav(buffer, "부드러운 저음");
+          return;
+        }
         withAudioContext(() => {
           if (customAudio) {
             stopOverlay();
@@ -893,6 +1029,14 @@
 
       function playAudio(type) {
         logAudio("playAudio", { type });
+        if (useWavOnIOS) {
+          init();
+          const isRain = type === "rain";
+          const buffer = isRain ? createRainBuffer() : createWaveBuffer();
+          const label = isRain ? "비 오는 소리" : "파도 소리";
+          playBufferAsWav(buffer, label);
+          return;
+        }
         withAudioContext(() => {
           const isRain = type === "rain";
           const name = isRain ? "비 오는 소리" : "파도 소리";
@@ -951,6 +1095,19 @@
 
       function playNatureSound(type) {
         logAudio("playNatureSound", { type });
+        if (useWavOnIOS) {
+          init();
+          const soundNames = {
+            wind: "바람 소리",
+            fireplace: "벽난로 소리",
+            forest: "숲 소리",
+            stream: "시냇물 소리",
+            thunder: "천둥 소리",
+          };
+          const buffer = createNatureBuffer(type);
+          playBufferAsWav(buffer, soundNames[type]);
+          return;
+        }
         withAudioContext(() => {
           const soundNames = {
             wind: "바람 소리",
@@ -1081,6 +1238,10 @@
       }
 
       function addNoiseOverlay(type) {
+        if (useWavOnIOS) {
+          showNotification("iOS에서는 덧씌우기가 지원되지 않습니다");
+          return;
+        }
         withAudioContext(() => {
           const noiseName = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
           const buffer = createNoiseBuffer(type);
@@ -1112,6 +1273,13 @@
       }
 
       function childMode() {
+        if (useWavOnIOS) {
+          init();
+          const buffer = createSineBuffer(50);
+          playBufferAsWav(buffer, "아이 재우기 모드");
+          setTimer(30, null);
+          return;
+        }
         withAudioContext(() => {
           stopAll();
           source = ctx.createOscillator();
