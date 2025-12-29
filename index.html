@@ -8,22 +8,33 @@
     <!-- SEO -->
     <meta
       name="description"
-      content="코골이, 소음이 있어도 잠들기 환경을 돕는 소리. 화이트 노이즈·비 소리·저자극 사운드 제공."
+      content="코골이·주변 소음이 있어도 잠들기 환경을 돕는 소리. 비 소리, 파도 소리, 부드러운 저음 제공. 잠들기 좋은 주파수와 수면 가이드 포함."
+    />
+    <meta
+      name="keywords"
+      content="잠들기 소리, 수면 도우미, 화이트 노이즈, 핑크 노이즈, 비 소리, 파도 소리, 코골이 차단, 수면 주파수, 자연 소리, 수면 가이드"
     />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://funnyfunny.cloud/sleep-helper/" />
+    <link rel="canonical" href="https://funnyfunny.cloud/sleep-sound/" />
 
-    <!-- OG (English image text) -->
-    <meta property="og:title" content="Sleep Helper" />
+    <!-- OG (English image text only) -->
+    <meta property="og:title" content="Sleep Sound Helper" />
     <meta
       property="og:description"
-      content="Sounds that help you fall asleep even with snoring."
+      content="Sounds that help you fall asleep even with noise or snoring."
     />
     <meta
       property="og:image"
-      content="https://dummyimage.com/1200x630/0b1220/ffffff&text=Sleep+Helper"
+      content="https://dummyimage.com/1200x630/0b1220/ffffff&text=Sleep+Sound+Helper"
     />
     <meta property="og:type" content="website" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='26' fill='white'%3EZz%3C/text%3E%3C/svg%3E"
+    />
 
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -31,43 +42,424 @@
   <body
     class="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white"
   >
-    <main class="max-w-md mx-auto px-4 py-10">
-      <h1 class="text-3xl font-extrabold text-center">잠들기 도우미</h1>
-      <p class="mt-2 text-center text-white/70">
-        코골이·주변 소음이 있어도 잠들기 환경을 돕는 소리
-      </p>
+    <main class="max-w-md md:max-w-4xl mx-auto px-4 py-6 md:py-10">
+      <!-- Header -->
+      <header class="text-center mb-6 md:mb-8">
+        <h1 class="text-2xl md:text-3xl font-extrabold">잠들기 도우미</h1>
+        <p class="mt-2 text-sm md:text-base text-white/70">
+          코골이·주변 소음이 있어도 잠들기 환경을 돕는 소리
+        </p>
+      </header>
 
-      <div class="mt-8 space-y-3">
+      <!-- Guide Section (PC only) -->
+      <section
+        class="hidden md:block rounded-2xl bg-blue-500/10 border border-blue-400/30 p-6 mb-6"
+      >
+        <h2 class="text-lg font-semibold mb-3">💤 잠들기 가이드</h2>
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <h3 class="font-semibold mb-2">시끄러운 환경</h3>
+            <p class="text-white/70">
+              핑크 노이즈나 화이트 노이즈를 사용하여 주변 소음을 가려주세요.
+              특히 코골이나 도로 소음에 효과적입니다.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">조용한 환경</h3>
+            <p class="text-white/70">
+              부드러운 저음이나 자연 소리(비, 파도)를 사용하면 더 깊은 잠에 빠질
+              수 있습니다.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">볼륨 조절</h3>
+            <p class="text-white/70">
+              너무 크지 않게 조절하세요. 보통 40-60% 정도가 적당하며, 주변
+              소음보다 약간 크게만 하면 됩니다.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-2">타이머 활용</h3>
+            <p class="text-white/70">
+              수면 시간에 맞춰 타이머를 설정하면 자동으로 꺼져서 깊은 잠을
+              방해하지 않습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Frequency Info Section -->
+      <section
+        class="rounded-2xl bg-purple-500/10 border border-purple-400/30 p-4 md:p-6 mb-4"
+      >
         <button
-          onclick="playNoise('white')"
-          class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15"
+          onclick="toggleFrequencyInfo()"
+          class="w-full flex items-center justify-between text-left"
         >
-          화이트 노이즈
+          <h2 class="text-sm md:text-base font-semibold">
+            🎵 잠들기 좋은 주파수 알아보기
+          </h2>
+          <span id="frequencyToggle" class="text-xl">▼</span>
         </button>
+        <div
+          id="frequencyInfo"
+          class="hidden mt-4 space-y-3 text-xs md:text-sm"
+        >
+          <div class="bg-white/5 rounded-lg p-3">
+            <h3 class="font-semibold mb-1">델타파 (0.5-4Hz)</h3>
+            <p class="text-white/70">
+              가장 깊은 수면 단계에서 나타나는 주파수입니다. 귀로 들을 수 없어
+              60Hz 정도의 부드러운 저음과 파도 리듬으로 델타 느낌을 만듭니다
+              (부드러운 저음, 파도 소리와 잘 어울림).
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-lg p-3">
+            <h3 class="font-semibold mb-1">세타파 (4-8Hz)</h3>
+            <p class="text-white/70">
+              깊은 휴식과 명상 상태에서 나타나며, 잠들기 직전 단계에서 도움이
+              됩니다. 핑크 노이즈나 비/파도 같은 느린 파동 소리가 세타 영역
+              감각을 만들어 줍니다.
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-lg p-3">
+            <h3 class="font-semibold mb-1">알파파 (8-13Hz)</h3>
+            <p class="text-white/70">
+              편안한 각성 상태로, 긴장을 풀고 잠들 준비를 할 때 도움이 됩니다.
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-lg p-3">
+            <h3 class="font-semibold mb-1">화이트 노이즈</h3>
+            <p class="text-white/70">
+              모든 주파수를 균등하게 포함하여 주변 소음을 효과적으로 가립니다.
+              코골이나 도로 소음 차단에 좋습니다.
+            </p>
+          </div>
+          <div class="bg-white/5 rounded-lg p-3">
+            <h3 class="font-semibold mb-1">핑크 노이즈</h3>
+            <p class="text-white/70">
+              고주파보다 저주파에 더 많은 에너지를 가진 노이즈로, 화이트
+              노이즈보다 더 자연스럽고 편안합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Situation -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-2">지금 주변은 어떤가요?</p>
+        <div class="grid grid-cols-2 gap-3">
+          <button
+            onclick="recommend('quiet')"
+            class="py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all active:scale-95"
+          >
+            지금 조용함
+          </button>
+          <button
+            onclick="recommend('noisy')"
+            class="py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all active:scale-95"
+          >
+            지금 시끄러움
+          </button>
+        </div>
+      </section>
+
+      <!-- Current Status -->
+      <section
+        id="statusSection"
+        class="rounded-2xl bg-emerald-500/20 border border-emerald-400/40 p-4 mb-4 hidden"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🔊</span>
+            <div>
+              <p class="text-sm font-semibold" id="currentSound">재생 중</p>
+              <p class="text-xs text-white/70" id="timerStatus"></p>
+            </div>
+          </div>
+          <button
+            onclick="stopAll()"
+            class="px-3 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-sm"
+          >
+            정지
+          </button>
+        </div>
+      </section>
+
+      <!-- Custom Audio -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-3">내 소리 추가</p>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs text-white/60 mb-2">파일 업로드</label>
+            <input
+              type="file"
+              id="audioFileInput"
+              accept="audio/*"
+              onchange="handleFileUpload(event)"
+              class="hidden"
+            />
+            <button
+              onclick="document.getElementById('audioFileInput').click()"
+              class="w-full py-2 px-4 rounded-lg bg-white/10 hover:bg-white/15 transition-all text-sm flex items-center justify-center gap-2"
+            >
+              <span>📁</span>
+              <span>파일 선택</span>
+            </button>
+            <p id="fileName" class="text-xs text-white/50 mt-2 text-center"></p>
+          </div>
+          <div id="overlaySection" class="hidden">
+            <label class="block text-xs text-white/60 mb-2"
+              >덧씌우기 (선택)</label
+            >
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <button
+                onclick="addNoiseOverlay('white')"
+                class="py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+              >
+                화이트 노이즈
+              </button>
+              <button
+                onclick="addNoiseOverlay('pink')"
+                class="py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+              >
+                핑크 노이즈
+              </button>
+              <button
+                onclick="removeNoiseOverlay()"
+                class="py-2 rounded-lg bg-gray-700/50 hover:bg-gray-700/70 transition-all col-span-2"
+              >
+                덧씌우기 제거
+              </button>
+            </div>
+            <p
+              id="overlayStatus"
+              class="text-xs text-white/50 mt-2 text-center"
+            ></p>
+            <p class="text-[11px] text-white/40 mt-1 text-center">
+              위의 소리·자연 소리 버튼을 눌러도 내 파일 위에 덧씌울 수 있어요
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sound Buttons -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-3">소리 선택</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <button
+            onclick="playNoise('white')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="화이트 노이즈"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              화이트 노이즈 (20Hz~20kHz)
+            </span>
+          </button>
+          <button
+            onclick="playNoise('pink')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="핑크 노이즈"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              핑크 노이즈 (저음 강화)
+            </span>
+          </button>
+          <button
+            onclick="playAudio('rain')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="비 오는 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              비 오는 소리 (500~8kHz 느낌)
+            </span>
+          </button>
+          <button
+            onclick="playAudio('wave')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="파도 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              파도 소리 (1~200Hz 리듬)
+            </span>
+          </button>
+          <button
+            onclick="playLow()"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="부드러운 저음"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              부드러운 저음 (60Hz)
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Nature Sounds -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-3">🌿 자연 소리</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <button
+            onclick="playNatureSound('wind')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="바람 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              바람 소리 (200~800Hz)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('fireplace')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="벽난로 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              벽난로 소리 (60~200Hz)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('forest')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="숲 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              숲 소리 (2~4kHz 새소리)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('stream')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="시냇물 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              시냇물 소리 (300~2kHz)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('thunder')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="천둥 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              천둥 소리 (40~120Hz)
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Volume Control -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-3">볼륨 조절</p>
+        <div class="flex items-center gap-3">
+          <span class="text-lg">🔉</span>
+          <input
+            type="range"
+            id="volumeSlider"
+            min="0"
+            max="100"
+            value="60"
+            oninput="setVolume(this.value)"
+            class="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer"
+          />
+          <span id="volumeValue" class="text-sm w-12 text-right">60%</span>
+        </div>
+      </section>
+
+      <!-- Timer -->
+      <section
+        class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
+      >
+        <p class="text-sm text-white/70 mb-3">타이머</p>
+        <div class="grid grid-cols-4 gap-2 text-sm">
+          <button
+            onclick="setTimer(15, this)"
+            class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+          >
+            15분
+          </button>
+          <button
+            onclick="setTimer(30, this)"
+            class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+          >
+            30분
+          </button>
+          <button
+            onclick="setTimer(60, this)"
+            class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+          >
+            1시간
+          </button>
+          <button
+            onclick="setTimer(0, this)"
+            class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+          >
+            계속
+          </button>
+        </div>
+      </section>
+
+      <!-- Child Mode -->
+      <section
+        class="rounded-2xl bg-emerald-500/10 border border-emerald-400/30 p-4 md:p-6 mb-6"
+      >
+        <p class="font-semibold mb-2">👶 아이 재우기 모드</p>
+        <p class="text-sm text-white/70 mb-3">
+          갑작스러운 소리 없는, 아주 일정한 소리만 제공합니다
+        </p>
         <button
-          onclick="playNoise('pink')"
-          class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15"
+          onclick="childMode()"
+          class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-semibold hover:bg-emerald-600 transition-all active:scale-95"
         >
-          핑크 노이즈
+          아이 재우기 시작
         </button>
-        <button
-          onclick="playLow()"
-          class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15"
+      </section>
+
+      <!-- Stop -->
+      <button
+        onclick="stopAll()"
+        class="w-full py-3 rounded-xl bg-gray-800 hover:bg-gray-700 mb-6 transition-all active:scale-95"
+      >
+        정지
+      </button>
+
+      <!-- Footer -->
+      <div class="space-y-4">
+        <div
+          class="md:hidden rounded-2xl bg-blue-500/10 border border-blue-400/30 p-4 mb-4"
         >
-          부드러운 저음
-        </button>
-        <button
-          onclick="stopAll()"
-          class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-semibold"
-        >
-          정지
-        </button>
+          <h3 class="text-sm font-semibold mb-2">💡 빠른 가이드</h3>
+          <ul class="text-xs text-white/70 space-y-1">
+            <li>• 시끄러운 환경: 핑크/화이트 노이즈 사용</li>
+            <li>• 조용한 환경: 자연 소리나 부드러운 저음</li>
+            <li>• 볼륨은 40-60% 정도가 적당합니다</li>
+            <li>• 타이머를 설정하면 자동으로 꺼집니다</li>
+          </ul>
+        </div>
+
+        <p class="text-xs text-white/50 text-center leading-relaxed">
+          본 서비스는 의료·수면 치료 목적이 아닌<br />
+          잠들기 환경을 돕기 위한 참고용 소리 제공 서비스입니다.
+        </p>
       </div>
-
-      <p class="mt-8 text-xs text-white/50 leading-relaxed text-center">
-        본 서비스는 수면 환경을 돕기 위한 참고용 소리 제공이며<br />
-        의료·치료 목적이 아닙니다.
-      </p>
 
       <div class="flex justify-center pt-6 mt-8 border-t border-white/10">
         <a
@@ -80,57 +472,578 @@
     </main>
 
     <script>
-      let ctx, source;
+      let ctx,
+        source,
+        overlaySource,
+        timer,
+        timerInterval,
+        gainNode,
+        overlayGainNode,
+        currentVolume = 0.6,
+        timerMinutes = 0,
+        timerEndTime = 0,
+        customAudio = null,
+        activeBaseName = "",
+        overlayName = "";
 
       function init() {
-        if (!ctx)
+        if (!ctx) {
           ctx = new (window.AudioContext || window.webkitAudioContext)();
+          gainNode = ctx.createGain();
+          gainNode.connect(ctx.destination);
+          gainNode.gain.value = currentVolume;
+
+          overlayGainNode = ctx.createGain();
+          overlayGainNode.connect(ctx.destination);
+          overlayGainNode.gain.value = 0;
+        }
       }
 
-      function playNoise(type) {
-        stopAll();
-        init();
+      function showStatus(soundName) {
+        const statusSection = document.getElementById("statusSection");
+        activeBaseName = soundName;
+        updateStatusLabel();
+        statusSection.classList.remove("hidden");
+        updateTimerDisplay();
+      }
 
-        const bufferSize = ctx.sampleRate * 2;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
+      function hideStatus() {
+        const statusSection = document.getElementById("statusSection");
+        statusSection.classList.add("hidden");
+        timerMinutes = 0;
+      }
 
-        let lastOut = 0;
-        for (let i = 0; i < bufferSize; i++) {
-          const white = Math.random() * 2 - 1;
-          if (type === "pink") {
-            lastOut = (lastOut + 0.02 * white) / 1.02;
-            data[i] = lastOut * 3.5;
+      function updateStatusLabel() {
+        const currentSound = document.getElementById("currentSound");
+        if (!currentSound) return;
+        const names = [];
+        if (activeBaseName) names.push(activeBaseName);
+        if (overlayName) names.push(overlayName);
+        currentSound.textContent = names.join(" + ") || "재생 중";
+      }
+
+      function updateTimerDisplay() {
+        const timerStatus = document.getElementById("timerStatus");
+        if (timerEndTime > 0) {
+          const now = Date.now();
+          const remaining = Math.max(0, timerEndTime - now);
+          if (remaining > 0) {
+            const minutes = Math.floor(remaining / 60000);
+            const seconds = Math.floor((remaining % 60000) / 1000);
+            timerStatus.textContent = `⏰ 남은 시간: ${minutes}분 ${seconds
+              .toString()
+              .padStart(2, "0")}초`;
           } else {
-            data[i] = white;
+            timerStatus.textContent = "계속 재생";
           }
+        } else {
+          timerStatus.textContent = "계속 재생";
+        }
+      }
+
+      function stopOverlay() {
+        if (overlaySource) {
+          try {
+            overlaySource.stop();
+          } catch {}
+          overlaySource = null;
+        }
+        overlayName = "";
+        if (overlayGainNode) {
+          overlayGainNode.gain.value = 0;
         }
 
-        source = ctx.createBufferSource();
-        source.buffer = buffer;
-        source.loop = true;
-        source.connect(ctx.destination);
-        source.start();
-      }
-
-      function playLow() {
-        stopAll();
-        init();
-        source = ctx.createOscillator();
-        source.type = "sine";
-        source.frequency.value = 60;
-        source.connect(ctx.destination);
-        source.start();
+        updateOverlayStatus("");
+        updateStatusLabel();
       }
 
       function stopAll() {
         if (source) {
           try {
-            source.stop();
+            if (source.stop) source.stop();
+            if (source.pause) source.pause();
           } catch {}
+          // 오브젝트 URL 정리
+          if (source.src && source.src.startsWith("blob:")) {
+            URL.revokeObjectURL(source.src);
+          }
           source = null;
         }
+        stopOverlay();
+        if (customAudio) {
+          try {
+            customAudio.pause();
+            if (customAudio.src && customAudio.src.startsWith("blob:")) {
+              URL.revokeObjectURL(customAudio.src);
+            }
+          } catch {}
+          customAudio = null;
+        }
+        if (timer) {
+          clearTimeout(timer);
+          timer = null;
+        }
+        if (timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+        }
+        timerEndTime = 0;
+        overlayName = "";
+        activeBaseName = "";
+        hideStatus();
+        resetButtonStates();
+
+        // 파일명 초기화
+        const fileName = document.getElementById("fileName");
+        if (fileName) fileName.textContent = "";
+
+        // 오버레이 섹션 숨기기
+        const overlaySection = document.getElementById("overlaySection");
+        if (overlaySection) overlaySection.classList.add("hidden");
       }
+
+      function resetButtonStates() {
+        document.querySelectorAll(".sound-btn").forEach((btn) => {
+          btn.classList.remove("bg-emerald-500/30");
+          btn.classList.add("bg-white/10");
+          const icon = btn.querySelector(".sound-icon");
+          if (icon) icon.textContent = "🔇";
+        });
+        document.querySelectorAll(".timer-btn").forEach((btn) => {
+          btn.classList.remove("bg-blue-500/30");
+          btn.classList.add("bg-white/10");
+        });
+      }
+
+      function highlightButton(button, name) {
+        resetButtonStates();
+        if (button) {
+          button.classList.remove("bg-white/10");
+          button.classList.add("bg-emerald-500/30");
+          const icon = button.querySelector(".sound-icon");
+          if (icon) icon.textContent = "🔊";
+        }
+        showStatus(name);
+      }
+
+      function setVolume(value) {
+        currentVolume = value / 100;
+        const volumeValue = document.getElementById("volumeValue");
+        volumeValue.textContent = value + "%";
+
+        if (gainNode) {
+          gainNode.gain.value = currentVolume;
+        }
+        if (overlayGainNode && overlaySource) {
+          // 덧씌운 소리 볼륨도 함께 조절 (기본 오디오의 35%)
+          overlayGainNode.gain.value = currentVolume * 0.35;
+        }
+        if (source) {
+          if (source.volume !== undefined) {
+            source.volume = currentVolume;
+          }
+          // AudioContext를 사용하는 경우 gainNode로 조절
+          if (source.connect && gainNode) {
+            // 이미 연결되어 있으면 볼륨은 gainNode로 조절됨
+          }
+        }
+        if (customAudio) {
+          customAudio.volume = currentVolume;
+        }
+      }
+
+      function setTimer(min, targetButton) {
+        if (timer) clearTimeout(timer);
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerMinutes = min;
+
+        // 타이머 버튼 하이라이트
+        document.querySelectorAll(".timer-btn").forEach((btn) => {
+          btn.classList.remove("bg-blue-500/30");
+          btn.classList.add("bg-white/10");
+        });
+
+        if (min > 0) {
+          timerEndTime = Date.now() + min * 60 * 1000;
+          timer = setTimeout(() => {
+            stopAll();
+            showNotification("타이머가 종료되었습니다");
+          }, min * 60 * 1000);
+
+          // 선택된 타이머 버튼 하이라이트
+          if (targetButton) {
+            targetButton.classList.remove("bg-white/10");
+            targetButton.classList.add("bg-blue-500/30");
+          }
+
+          // 1초마다 남은 시간 업데이트
+          timerInterval = setInterval(() => {
+            updateTimerDisplay();
+            if (timerEndTime <= Date.now()) {
+              clearInterval(timerInterval);
+              timerInterval = null;
+            }
+          }, 1000);
+        } else {
+          timerEndTime = 0;
+        }
+
+        updateTimerDisplay();
+      }
+
+      function showNotification(message) {
+        // 간단한 알림 표시
+        const notification = document.createElement("div");
+        notification.textContent = message;
+        notification.className =
+          "fixed top-4 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 animate-bounce";
+        document.body.appendChild(notification);
+        setTimeout(() => {
+          notification.remove();
+        }, 3000);
+      }
+
+      function createNoiseBuffer(type) {
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let last = 0;
+
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          if (type === "pink") {
+            last = (last + 0.02 * white) / 1.02;
+            data[i] = last * 3;
+          } else {
+            data[i] = white * 0.6;
+          }
+        }
+        return buffer;
+      }
+
+      function updateOverlayStatus(label) {
+        const overlayStatus = document.getElementById("overlayStatus");
+        if (overlayStatus) {
+          overlayStatus.textContent = label ? `✓ ${label} 덧씌움` : "";
+        }
+      }
+
+      function startOverlayBuffer(buffer, label) {
+        if (!customAudio) {
+          showNotification("먼저 오디오 파일을 업로드해주세요");
+          return;
+        }
+        stopOverlay();
+        init();
+        overlaySource = ctx.createBufferSource();
+        overlaySource.buffer = buffer;
+        overlaySource.loop = true;
+        overlaySource.connect(overlayGainNode);
+        overlayGainNode.gain.value = currentVolume * 0.35;
+        overlaySource.start();
+
+        overlayName = label;
+        updateOverlayStatus(label);
+        updateStatusLabel();
+      }
+
+      function playNoise(type) {
+        init();
+        const buffer = createNoiseBuffer(type);
+
+        const button = event.target.closest(".sound-btn");
+        const name = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+        if (customAudio) {
+          startOverlayBuffer(buffer, name);
+          return;
+        }
+
+        stopAll();
+        source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(gainNode);
+        source.start();
+        highlightButton(button, name);
+      }
+
+      function playLow() {
+        init();
+
+        if (customAudio) {
+          stopOverlay();
+          overlaySource = ctx.createOscillator();
+          overlaySource.type = "sine";
+          overlaySource.frequency.value = 60;
+          overlaySource.connect(overlayGainNode);
+          overlayGainNode.gain.value = currentVolume * 0.35;
+          overlaySource.start();
+          overlayName = "부드러운 저음";
+          updateOverlayStatus(overlayName);
+          updateStatusLabel();
+          return;
+        }
+
+        stopAll();
+        source = ctx.createOscillator();
+        source.type = "sine";
+        source.frequency.value = 60;
+        source.connect(gainNode);
+        source.start();
+
+        const button = event.target.closest(".sound-btn");
+        highlightButton(button, "부드러운 저음");
+      }
+
+      function playAudio(type) {
+        init();
+
+        const isRain = type === "rain";
+        const name = isRain ? "비 오는 소리" : "파도 소리";
+        const buffer = isRain ? createRainBuffer() : createWaveBuffer();
+
+        if (customAudio) {
+          startOverlayBuffer(buffer, name);
+          return;
+        }
+
+        stopAll();
+        source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(gainNode);
+        source.start();
+
+        const button = event.target.closest(".sound-btn");
+        highlightButton(button, name);
+      }
+
+      function createRainBuffer() {
+        // 비 소리 생성: 여러 주파수의 노이즈를 조합
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          // 비 소리 효과: 고주파 노이즈 + 저주파 진동
+          const noise = (Math.random() * 2 - 1) * 0.3;
+          const lowFreq = Math.sin(i * 0.001) * 0.1;
+          const drop = Math.random() < 0.01 ? Math.random() * 0.5 : 0;
+          data[i] = noise + lowFreq + drop;
+        }
+
+        return buffer;
+      }
+
+      function createWaveBuffer() {
+        // 파도 소리 생성: 저주파 진동 + 노이즈
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          // 파도 효과: 저주파 사인파 + 부드러운 노이즈
+          const wave = Math.sin(i * 0.0005) * 0.4;
+          const noise = (Math.random() * 2 - 1) * 0.15;
+          const foam = Math.random() < 0.02 ? Math.random() * 0.3 : 0;
+          data[i] = wave + noise + foam;
+        }
+
+        return buffer;
+      }
+
+      function playNatureSound(type) {
+        init();
+
+        const soundNames = {
+          wind: "바람 소리",
+          fireplace: "벽난로 소리",
+          forest: "숲 소리",
+          stream: "시냇물 소리",
+          thunder: "천둥 소리",
+        };
+
+        const bufferSize = ctx.sampleRate * 2;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          let sample = 0;
+
+          switch (type) {
+            case "wind":
+              // 바람 소리: 부드러운 고주파 노이즈
+              sample = (Math.random() * 2 - 1) * 0.25;
+              sample *= 0.5 + Math.sin(i * 0.0003) * 0.5;
+              break;
+
+            case "fireplace":
+              // 벽난로 소리: 크랙링 노이즈 + 저주파
+              const crackle =
+                Math.random() < 0.05 ? (Math.random() * 2 - 1) * 0.4 : 0;
+              const base = Math.sin(i * 0.001) * 0.2;
+              sample = crackle + base;
+              break;
+
+            case "forest":
+              // 숲 소리: 바람 + 새 소리 효과
+              const wind = (Math.random() * 2 - 1) * 0.15;
+              const bird = Math.random() < 0.003 ? Math.sin(i * 0.01) * 0.2 : 0;
+              sample = wind + bird;
+              break;
+
+            case "stream":
+              // 시냇물 소리: 고주파 노이즈 + 리듬
+              const water = (Math.random() * 2 - 1) * 0.3;
+              const rhythm = Math.sin(i * 0.002) * 0.1;
+              sample = water + rhythm;
+              break;
+
+            case "thunder":
+              // 천둥 소리: 저주파 랜덤 버스트
+              const thunder =
+                Math.random() < 0.001 ? (Math.random() * 2 - 1) * 0.6 : 0;
+              const rumble = Math.sin(i * 0.0002) * 0.15;
+              sample = thunder + rumble;
+              break;
+          }
+
+          data[i] = sample;
+        }
+
+        if (customAudio) {
+          startOverlayBuffer(buffer, soundNames[type]);
+          return;
+        }
+
+        stopAll();
+        source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+        source.connect(gainNode);
+        source.start();
+
+        const button = event.target.closest(".sound-btn");
+        highlightButton(button, soundNames[type]);
+      }
+
+      function handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("audio/")) {
+          showNotification("오디오 파일만 업로드 가능합니다");
+          return;
+        }
+
+        const fileName = document.getElementById("fileName");
+        fileName.textContent = file.name;
+
+        const url = URL.createObjectURL(file);
+        playCustomAudio(url, file.name);
+      }
+
+      function playCustomAudio(url, name) {
+        stopAll();
+        init();
+
+        const audio = new Audio(url);
+        audio.loop = true;
+        audio.volume = currentVolume;
+
+        audio.addEventListener("error", () => {
+          showNotification("오디오를 재생할 수 없습니다");
+          stopAll();
+        });
+
+        audio.play().catch((error) => {
+          showNotification("오디오 재생에 실패했습니다");
+          console.error("Audio play error:", error);
+        });
+
+        customAudio = audio;
+        source = audio;
+        showStatus(name);
+
+        // 오버레이 섹션 표시
+        const overlaySection = document.getElementById("overlaySection");
+        if (overlaySection) overlaySection.classList.remove("hidden");
+
+        // 사용자 오디오 버튼 하이라이트 (가상 버튼)
+        resetButtonStates();
+      }
+
+      function addNoiseOverlay(type) {
+        init();
+        const noiseName = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+        const buffer = createNoiseBuffer(type);
+        startOverlayBuffer(buffer, noiseName);
+      }
+
+      function removeNoiseOverlay() {
+        stopOverlay();
+        updateStatusLabel();
+      }
+
+      function recommend(state) {
+        if (state === "noisy") {
+          const button = document.querySelector('[data-name="핑크 노이즈"]');
+          if (button) {
+            button.click();
+          } else {
+            playNoise("pink");
+          }
+        } else {
+          const button = document.querySelector('[data-name="부드러운 저음"]');
+          if (button) {
+            button.click();
+          } else {
+            playLow();
+          }
+        }
+      }
+
+      function childMode() {
+        stopAll();
+        init();
+        source = ctx.createOscillator();
+        source.type = "sine";
+        source.frequency.value = 50;
+        source.connect(gainNode);
+        source.start();
+        setTimer(30, null);
+        showStatus("아이 재우기 모드");
+      }
+
+      function toggleFrequencyInfo() {
+        const info = document.getElementById("frequencyInfo");
+        const toggle = document.getElementById("frequencyToggle");
+        if (info.classList.contains("hidden")) {
+          info.classList.remove("hidden");
+          toggle.textContent = "▲";
+        } else {
+          info.classList.add("hidden");
+          toggle.textContent = "▼";
+        }
+      }
+
+      // 페이지 로드 시 초기화
+      document.addEventListener("DOMContentLoaded", () => {
+        // 볼륨 슬라이더 스타일링
+        const volumeSlider = document.getElementById("volumeSlider");
+        if (volumeSlider) {
+          volumeSlider.style.background = `linear-gradient(to right, #10b981 0%, #10b981 ${
+            currentVolume * 100
+          }%, rgba(255,255,255,0.2) ${
+            currentVolume * 100
+          }%, rgba(255,255,255,0.2) 100%)`;
+          volumeSlider.addEventListener("input", (e) => {
+            const value = e.target.value;
+            e.target.style.background = `linear-gradient(to right, #10b981 0%, #10b981 ${value}%, rgba(255,255,255,0.2) ${value}%, rgba(255,255,255,0.2) 100%)`;
+          });
+        }
+      });
     </script>
   </body>
 </html>
