@@ -487,6 +487,12 @@
         overlayName = "";
       let audioUnlocked = false;
       const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent);
+      const audioDebug = true;
+
+      function logAudio(...args) {
+        if (!audioDebug) return;
+        console.log("[audio]", ...args);
+      }
 
       function init() {
         if (!ctx) {
@@ -500,6 +506,10 @@
           overlayGainNode = ctx.createGain();
           overlayGainNode.connect(ctx.destination);
           overlayGainNode.gain.value = 0;
+          logAudio("init: created AudioContext", {
+            state: ctx.state,
+            sampleRate: ctx.sampleRate,
+          });
         }
         resumeContext();
       }
@@ -507,9 +517,14 @@
       function resumeContext() {
         if (!ctx) return;
         if (ctx.state === "suspended") {
-          ctx.resume().catch((e) => {
+          logAudio("resumeContext: suspended -> resume()");
+          ctx.resume().then(() => {
+            logAudio("resumeContext: state after resume", ctx.state);
+          }).catch((e) => {
             console.error("Failed to resume audio context:", e);
           });
+        } else {
+          logAudio("resumeContext: state", ctx.state);
         }
       }
 
@@ -523,6 +538,7 @@
             sourceNode.start(0);
           } catch {}
           audioUnlocked = true;
+          logAudio("tryUnlockAudio: unlocked");
         }
       }
 
@@ -532,7 +548,15 @@
           resumeContext();
         }
         tryUnlockAudio();
+        logAudio("withAudioContext: before action", {
+          state: ctx?.state,
+          unlocked: audioUnlocked,
+        });
         action();
+        logAudio("withAudioContext: after action", {
+          state: ctx?.state,
+          unlocked: audioUnlocked,
+        });
       }
 
 
@@ -787,6 +811,7 @@
       
 
       function playNoise(type) {
+        logAudio("playNoise", { type });
         withAudioContext(() => {
           const buffer = createNoiseBuffer(type);
 
@@ -808,6 +833,7 @@
       }
 
       function playLow() {
+        logAudio("playLow");
         withAudioContext(() => {
           if (customAudio) {
             stopOverlay();
@@ -836,6 +862,7 @@
       }
 
       function playAudio(type) {
+        logAudio("playAudio", { type });
         withAudioContext(() => {
           const isRain = type === "rain";
           const name = isRain ? "비 오는 소리" : "파도 소리";
@@ -893,6 +920,7 @@
       }
 
       function playNatureSound(type) {
+        logAudio("playNatureSound", { type });
         withAudioContext(() => {
           const soundNames = {
             wind: "바람 소리",
@@ -985,6 +1013,7 @@
       }
 
       function playCustomAudio(url, name) {
+        logAudio("playCustomAudio", { url, name });
         stopAll();
 
         const audio = new Audio(url);
@@ -1000,7 +1029,9 @@
         });
 
         // 모바일에서 재생 보장 - 사용자 인터랙션에서 직접 호출되므로 가능
-        audio.play().catch((error) => {
+        audio.play().then(() => {
+          logAudio("HTMLAudio: play started");
+        }).catch((error) => {
           // 재생 실패 시 사용자에게 알림
           showNotification("오디오 재생에 실패했습니다. 볼륨을 확인해주세요.");
           console.error("Audio play error:", error);
