@@ -489,7 +489,9 @@
 
       function init() {
         if (!ctx) {
-          ctx = new (window.AudioContext || window.webkitAudioContext)();
+          ctx = new (window.AudioContext || window.webkitAudioContext)({
+            latencyHint: "interactive",
+          });
           gainNode = ctx.createGain();
           gainNode.connect(ctx.destination);
           gainNode.gain.value = currentVolume;
@@ -769,9 +771,24 @@
         updateStatusLabel();
       }
 
-      async function playNoise(type) {
+      async function ensureUnlocked() {
         init();
         await resumeContext();
+        // iOS: 짧은 무음 버퍼를 재생해 AudioContext를 확실히 깨움
+        if (!audioUnlocked && ctx && ctx.state === "running") {
+          try {
+            const buffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+            const sourceNode = ctx.createBufferSource();
+            sourceNode.buffer = buffer;
+            sourceNode.connect(gainNode);
+            sourceNode.start(0, 0, 0.01);
+          } catch {}
+          audioUnlocked = true;
+        }
+      }
+
+      async function playNoise(type) {
+        await ensureUnlocked();
         const buffer = createNoiseBuffer(type);
 
         const button = event?.target?.closest(".sound-btn");
@@ -791,8 +808,7 @@
       }
 
       async function playLow() {
-        init();
-        await resumeContext();
+        await ensureUnlocked();
 
         if (customAudio) {
           stopOverlay();
@@ -822,8 +838,7 @@
       }
 
       async function playAudio(type) {
-        init();
-        await resumeContext();
+        await ensureUnlocked();
 
         const isRain = type === "rain";
         const name = isRain ? "비 오는 소리" : "파도 소리";
@@ -880,8 +895,7 @@
       }
 
       async function playNatureSound(type) {
-        init();
-        await resumeContext();
+        await ensureUnlocked();
 
         const soundNames = {
           wind: "바람 소리",
@@ -973,8 +987,7 @@
 
       async function playCustomAudio(url, name) {
         stopAll();
-        init();
-        await resumeContext();
+        await ensureUnlocked();
 
         const audio = new Audio(url);
         audio.loop = true;
@@ -1043,8 +1056,7 @@
 
       async function childMode() {
         stopAll();
-        init();
-        await resumeContext();
+        await ensureUnlocked();
         source = ctx.createOscillator();
         source.type = "sine";
         source.frequency.value = 50;
@@ -1069,15 +1081,7 @@
       // 페이지 로드 시 초기화
       document.addEventListener("DOMContentLoaded", () => {
         const unlock = async () => {
-          if (audioUnlocked) return;
-          init();
-          await resumeContext();
-          if (ctx && ctx.state === "running") {
-            audioUnlocked = true;
-            document.removeEventListener("click", unlock);
-            document.removeEventListener("touchstart", unlock);
-            document.removeEventListener("pointerdown", unlock);
-          }
+          await ensureUnlocked();
         };
         document.addEventListener("click", unlock, { passive: true });
         document.addEventListener("touchstart", unlock, { passive: true });
