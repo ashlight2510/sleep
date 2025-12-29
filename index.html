@@ -361,6 +361,36 @@
               천둥 소리 (40~120Hz)
             </span>
           </button>
+          <button
+            onclick="playNatureSound('birds')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="아침 새소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              아침 새소리 (3~8kHz)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('night')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="밤 벌레 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              밤 벌레 소리 (2~6kHz)
+            </span>
+          </button>
+          <button
+            onclick="playNatureSound('meadow')"
+            class="sound-btn w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all"
+            data-name="들판 바람 소리"
+          >
+            <span class="flex items-center justify-center gap-2">
+              <span class="sound-icon">🔇</span>
+              들판 바람 소리 (200~1kHz)
+            </span>
+          </button>
         </div>
       </section>
 
@@ -530,6 +560,7 @@
 
         for (let i = 0; i < bufferSize; i++) {
           let sample = 0;
+          const t = i / ctx.sampleRate;
 
           switch (type) {
             case "wind":
@@ -557,6 +588,24 @@
                 Math.random() < 0.001 ? (Math.random() * 2 - 1) * 0.6 : 0;
               const rumble = Math.sin(i * 0.0002) * 0.15;
               sample = thunder + rumble;
+              break;
+            case "birds":
+              const chirp = Math.random() < 0.002 ? 1 : 0;
+              const chirpEnv = chirp ? Math.exp(-t * 6) : 0;
+              sample = chirpEnv * Math.sin(2 * Math.PI * (3500 + i * 0.02) * t);
+              sample += (Math.random() * 2 - 1) * 0.02;
+              break;
+            case "night":
+              const insect = Math.random() < 0.01 ? Math.random() * 0.2 : 0;
+              const hum = Math.sin(i * 0.004) * 0.05;
+              sample = insect + hum + (Math.random() * 2 - 1) * 0.02;
+              break;
+            case "meadow":
+              const breeze = (Math.random() * 2 - 1) * 0.18;
+              const gust = Math.sin(i * 0.0005) * 0.1;
+              const farBird =
+                Math.random() < 0.0008 ? Math.sin(i * 0.02) * 0.15 : 0;
+              sample = breeze + gust + farBird;
               break;
           }
 
@@ -1103,6 +1152,9 @@
             forest: "숲 소리",
             stream: "시냇물 소리",
             thunder: "천둥 소리",
+            birds: "아침 새소리",
+            night: "밤 벌레 소리",
+            meadow: "들판 바람 소리",
           };
           const buffer = createNatureBuffer(type);
           playBufferAsWav(buffer, soundNames[type]);
