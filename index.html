@@ -501,10 +501,12 @@
         resumeContext();
       }
 
-      function resumeContext() {
+      async function resumeContext() {
         if (!ctx) return;
         if (ctx.state === "suspended") {
-          ctx.resume().catch(() => {});
+          try {
+            await ctx.resume();
+          } catch (e) {}
         }
       }
 
@@ -757,9 +759,9 @@
         updateStatusLabel();
       }
 
-      function playNoise(type) {
+      async function playNoise(type) {
         init();
-        resumeContext();
+        await resumeContext();
         const buffer = createNoiseBuffer(type);
 
         const button = event?.target?.closest(".sound-btn");
@@ -778,9 +780,9 @@
         highlightButton(button, name);
       }
 
-      function playLow() {
+      async function playLow() {
         init();
-        resumeContext();
+        await resumeContext();
 
         if (customAudio) {
           stopOverlay();
@@ -807,9 +809,9 @@
         highlightButton(button, "부드러운 저음");
       }
 
-      function playAudio(type) {
+      async function playAudio(type) {
         init();
-        resumeContext();
+        await resumeContext();
 
         const isRain = type === "rain";
         const name = isRain ? "비 오는 소리" : "파도 소리";
@@ -865,9 +867,9 @@
         return buffer;
       }
 
-      function playNatureSound(type) {
+      async function playNatureSound(type) {
         init();
-        resumeContext();
+        await resumeContext();
 
         const soundNames = {
           wind: "바람 소리",
@@ -957,10 +959,10 @@
         playCustomAudio(url, file.name);
       }
 
-      function playCustomAudio(url, name) {
+      async function playCustomAudio(url, name) {
         stopAll();
         init();
-        resumeContext();
+        await resumeContext();
 
         const audio = new Audio(url);
         audio.loop = true;
@@ -1018,9 +1020,10 @@
         }
       }
 
-      function childMode() {
+      async function childMode() {
         stopAll();
         init();
+        await resumeContext();
         source = ctx.createOscillator();
         source.type = "sine";
         source.frequency.value = 50;
@@ -1044,18 +1047,20 @@
 
       // 페이지 로드 시 초기화
       document.addEventListener("DOMContentLoaded", () => {
-        const unlock = () => {
+        const unlock = async () => {
           if (audioUnlocked) return;
           init();
-          resumeContext();
+          await resumeContext();
           if (ctx && ctx.state === "running") {
             audioUnlocked = true;
             document.removeEventListener("click", unlock);
             document.removeEventListener("touchstart", unlock);
+            document.removeEventListener("pointerdown", unlock);
           }
         };
         document.addEventListener("click", unlock, { passive: true });
         document.addEventListener("touchstart", unlock, { passive: true });
+        document.addEventListener("pointerdown", unlock, { passive: true });
 
         // 볼륨 슬라이더 스타일링
         const volumeSlider = document.getElementById("volumeSlider");
