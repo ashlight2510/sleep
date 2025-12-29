@@ -544,8 +544,14 @@
 
       function withAudioContext(action) {
         init();
-        if (ctx && ctx.state === "suspended") {
+        if (ctx && ctx.state !== "running") {
           resumeContext();
+          showNotification("소리 활성화 중입니다. 한 번 더 눌러주세요.");
+          logAudio("withAudioContext: blocked, waiting for running", {
+            state: ctx?.state,
+            unlocked: audioUnlocked,
+          });
+          return;
         }
         tryUnlockAudio();
         logAudio("withAudioContext: before action", {
