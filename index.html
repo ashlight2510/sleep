@@ -521,13 +521,12 @@
       }
 
       function resumeContext() {
-        if (!ctx) return Promise.resolve();
+        if (!ctx) return;
         if (ctx.state === "suspended") {
-          return ctx.resume().catch((e) => {
+          ctx.resume().catch((e) => {
             console.error("Failed to resume audio context:", e);
           });
         }
-        return Promise.resolve();
       }
 
       function tryUnlockAudio() {
@@ -559,26 +558,22 @@
 
       function withAudioContext(action) {
         init();
-        const run = () => {
-          if (ctx && ctx.state !== "running") {
-            showAudioGate();
-            return;
-          }
-          tryUnlockAudio();
-          action();
-          hideAudioGate();
-        };
-
         if (ctx && ctx.state === "suspended") {
-          resumeContext().then(run);
-          return;
+          resumeContext();
         }
-        run();
+        tryUnlockAudio();
+        action();
+        if (ctx && ctx.state !== "running") {
+          showAudioGate();
+        } else {
+          hideAudioGate();
+        }
       }
 
       function unlockAudio() {
         withAudioContext(() => {});
       }
+
 
       function showStatus(soundName) {
         const statusSection = document.getElementById("statusSection");
