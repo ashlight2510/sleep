@@ -506,7 +506,15 @@
         if (ctx.state === "suspended") {
           try {
             await ctx.resume();
-          } catch (e) {}
+            // 모바일에서 추가 확인
+            if (ctx.state === "suspended") {
+              // 한 번 더 시도
+              await new Promise((resolve) => setTimeout(resolve, 100));
+              await ctx.resume();
+            }
+          } catch (e) {
+            console.error("Failed to resume audio context:", e);
+          }
         }
       }
 
@@ -740,13 +748,15 @@
         }
       }
 
-      function startOverlayBuffer(buffer, label) {
+      async function startOverlayBuffer(buffer, label) {
         if (!customAudio) {
           showNotification("먼저 오디오 파일을 업로드해주세요");
           return;
         }
         stopOverlay();
         init();
+        await resumeContext();
+
         overlaySource = ctx.createBufferSource();
         overlaySource.buffer = buffer;
         overlaySource.loop = true;
@@ -767,7 +777,7 @@
         const button = event?.target?.closest(".sound-btn");
         const name = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
         if (customAudio) {
-          startOverlayBuffer(buffer, name);
+          await startOverlayBuffer(buffer, name);
           return;
         }
 
@@ -786,6 +796,8 @@
 
         if (customAudio) {
           stopOverlay();
+          init();
+          await resumeContext();
           overlaySource = ctx.createOscillator();
           overlaySource.type = "sine";
           overlaySource.frequency.value = 60;
@@ -818,7 +830,7 @@
         const buffer = isRain ? createRainBuffer() : createWaveBuffer();
 
         if (customAudio) {
-          startOverlayBuffer(buffer, name);
+          await startOverlayBuffer(buffer, name);
           return;
         }
 
@@ -928,7 +940,7 @@
         }
 
         if (customAudio) {
-          startOverlayBuffer(buffer, soundNames[type]);
+          await startOverlayBuffer(buffer, soundNames[type]);
           return;
         }
 
@@ -968,15 +980,23 @@
         audio.loop = true;
         audio.volume = currentVolume;
 
+        // 모바일에서 재생을 보장하기 위해 preload 설정
+        audio.preload = "auto";
+
         audio.addEventListener("error", () => {
           showNotification("오디오를 재생할 수 없습니다");
           stopAll();
         });
 
-        audio.play().catch((error) => {
-          showNotification("오디오 재생에 실패했습니다");
+        // 모바일에서 재생 보장
+        try {
+          await audio.play();
+        } catch (error) {
+          // 재생 실패 시 사용자에게 알림
+          showNotification("오디오 재생에 실패했습니다. 볼륨을 확인해주세요.");
           console.error("Audio play error:", error);
-        });
+          return;
+        }
 
         customAudio = audio;
         source = audio;
@@ -990,11 +1010,12 @@
         resetButtonStates();
       }
 
-      function addNoiseOverlay(type) {
+      async function addNoiseOverlay(type) {
         init();
+        await resumeContext();
         const noiseName = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
         const buffer = createNoiseBuffer(type);
-        startOverlayBuffer(buffer, noiseName);
+        await startOverlayBuffer(buffer, noiseName);
       }
 
       function removeNoiseOverlay() {
