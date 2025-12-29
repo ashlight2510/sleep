@@ -485,6 +485,7 @@
         customAudio = null,
         activeBaseName = "",
         overlayName = "";
+      let audioUnlocked = false;
 
       function init() {
         if (!ctx) {
@@ -496,6 +497,14 @@
           overlayGainNode = ctx.createGain();
           overlayGainNode.connect(ctx.destination);
           overlayGainNode.gain.value = 0;
+        }
+        resumeContext();
+      }
+
+      function resumeContext() {
+        if (!ctx) return;
+        if (ctx.state === "suspended") {
+          ctx.resume().catch(() => {});
         }
       }
 
@@ -750,9 +759,10 @@
 
       function playNoise(type) {
         init();
+        resumeContext();
         const buffer = createNoiseBuffer(type);
 
-        const button = event.target.closest(".sound-btn");
+        const button = event?.target?.closest(".sound-btn");
         const name = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
         if (customAudio) {
           startOverlayBuffer(buffer, name);
@@ -770,6 +780,7 @@
 
       function playLow() {
         init();
+        resumeContext();
 
         if (customAudio) {
           stopOverlay();
@@ -792,12 +803,13 @@
         source.connect(gainNode);
         source.start();
 
-        const button = event.target.closest(".sound-btn");
+        const button = event?.target?.closest(".sound-btn");
         highlightButton(button, "부드러운 저음");
       }
 
       function playAudio(type) {
         init();
+        resumeContext();
 
         const isRain = type === "rain";
         const name = isRain ? "비 오는 소리" : "파도 소리";
@@ -815,7 +827,7 @@
         source.connect(gainNode);
         source.start();
 
-        const button = event.target.closest(".sound-btn");
+        const button = event?.target?.closest(".sound-btn");
         highlightButton(button, name);
       }
 
@@ -855,6 +867,7 @@
 
       function playNatureSound(type) {
         init();
+        resumeContext();
 
         const soundNames = {
           wind: "바람 소리",
@@ -924,7 +937,7 @@
         source.connect(gainNode);
         source.start();
 
-        const button = event.target.closest(".sound-btn");
+        const button = event?.target?.closest(".sound-btn");
         highlightButton(button, soundNames[type]);
       }
 
@@ -947,6 +960,7 @@
       function playCustomAudio(url, name) {
         stopAll();
         init();
+        resumeContext();
 
         const audio = new Audio(url);
         audio.loop = true;
@@ -1030,6 +1044,19 @@
 
       // 페이지 로드 시 초기화
       document.addEventListener("DOMContentLoaded", () => {
+        const unlock = () => {
+          if (audioUnlocked) return;
+          init();
+          resumeContext();
+          if (ctx && ctx.state === "running") {
+            audioUnlocked = true;
+            document.removeEventListener("click", unlock);
+            document.removeEventListener("touchstart", unlock);
+          }
+        };
+        document.addEventListener("click", unlock, { passive: true });
+        document.addEventListener("touchstart", unlock, { passive: true });
+
         // 볼륨 슬라이더 스타일링
         const volumeSlider = document.getElementById("volumeSlider");
         if (volumeSlider) {
