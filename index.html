@@ -543,18 +543,47 @@
         }
       }
 
-      function createSineBuffer(freq) {
-        const bufferSize = ctx.sampleRate * 2;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          data[i] = Math.sin((2 * Math.PI * freq * i) / ctx.sampleRate) * 0.4;
+      const LOOP_SECONDS = 8;
+      const LOOP_FADE_SECONDS = 0.05;
+
+      function createLoopBufferSize() {
+        return Math.max(1, Math.floor(ctx.sampleRate * LOOP_SECONDS));
+      }
+
+      function applyLoopFade(buffer, fadeSeconds = LOOP_FADE_SECONDS) {
+        const fadeSamples = Math.min(
+          Math.floor(buffer.sampleRate * fadeSeconds),
+          Math.floor(buffer.length / 2)
+        );
+        if (fadeSamples <= 0) return buffer;
+        for (let ch = 0; ch < buffer.numberOfChannels; ch++) {
+          const data = buffer.getChannelData(ch);
+          for (let i = 0; i < fadeSamples; i++) {
+            const fadeIn = i / fadeSamples;
+            const fadeOut = (fadeSamples - i) / fadeSamples;
+            data[i] *= fadeIn;
+            data[buffer.length - 1 - i] *= fadeOut;
+          }
         }
         return buffer;
       }
 
+      function createSineBuffer(freq) {
+        const bufferSize = createLoopBufferSize();
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          const t = i / ctx.sampleRate;
+          const base = Math.sin(2 * Math.PI * freq * t) * 0.32;
+          const harmonic = Math.sin(2 * Math.PI * freq * 2 * t) * 0.12;
+          const air = (Math.random() * 2 - 1) * 0.01;
+          data[i] = base + harmonic + air;
+        }
+        return applyLoopFade(buffer);
+      }
+
       function createNatureBuffer(type) {
-        const bufferSize = ctx.sampleRate * 2;
+        const bufferSize = createLoopBufferSize();
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
 
@@ -584,21 +613,26 @@
               sample = water + rhythm;
               break;
             case "thunder":
-              const thunder =
-                Math.random() < 0.001 ? (Math.random() * 2 - 1) * 0.6 : 0;
-              const rumble = Math.sin(i * 0.0002) * 0.15;
-              sample = thunder + rumble;
+              // 천둥: 느린 저주파 럼블 + 간헐적 강한 버스트
+              const rumble = Math.sin(2 * Math.PI * 40 * t) * 0.18;
+              const burstGate = Math.max(0, Math.sin(2 * Math.PI * 0.25 * t));
+              const burst = burstGate * (Math.random() * 2 - 1) * 0.5;
+              sample = rumble + burst;
               break;
             case "birds":
-              const chirp = Math.random() < 0.002 ? 1 : 0;
-              const chirpEnv = chirp ? Math.exp(-t * 6) : 0;
-              sample = chirpEnv * Math.sin(2 * Math.PI * (3500 + i * 0.02) * t);
-              sample += (Math.random() * 2 - 1) * 0.02;
+              // 새소리: 규칙적인 짧은 울음 + 부드러운 배경
+              const chirpGate = Math.max(0, Math.sin(2 * Math.PI * 1.3 * t));
+              const chirpFreq = 2800 + 600 * Math.sin(2 * Math.PI * 2.6 * t);
+              sample = chirpGate * Math.sin(2 * Math.PI * chirpFreq * t) * 0.35;
+              sample += (Math.random() * 2 - 1) * 0.03;
               break;
             case "night":
-              const insect = Math.random() < 0.01 ? Math.random() * 0.2 : 0;
-              const hum = Math.sin(i * 0.004) * 0.05;
-              sample = insect + hum + (Math.random() * 2 - 1) * 0.02;
+              // 밤벌레: 높은 톤의 일정한 울음 + 저주파 바닥
+              const cricketGate = Math.max(0, Math.sin(2 * Math.PI * 3.2 * t));
+              const cricket = Math.sin(2 * Math.PI * 4200 * t) * 0.22;
+              const hum = Math.sin(2 * Math.PI * 120 * t) * 0.04;
+              sample = cricketGate * cricket + hum;
+              sample += (Math.random() * 2 - 1) * 0.02;
               break;
             case "meadow":
               const breeze = (Math.random() * 2 - 1) * 0.18;
@@ -612,7 +646,7 @@
           data[i] = sample;
         }
 
-        return buffer;
+        return applyLoopFade(buffer);
       }
 
       function init() {
@@ -642,11 +676,14 @@
         if (!ctx) return;
         if (ctx.state === "suspended") {
           logAudio("resumeContext: suspended -> resume()");
-          ctx.resume().then(() => {
-            logAudio("resumeContext: state after resume", ctx.state);
-          }).catch((e) => {
-            console.error("Failed to resume audio context:", e);
-          });
+          ctx
+            .resume()
+            .then(() => {
+              logAudio("resumeContext: state after resume", ctx.state);
+            })
+            .catch((e) => {
+              console.error("Failed to resume audio context:", e);
+            });
         } else {
           logAudio("resumeContext: state", ctx.state);
         }
@@ -690,7 +727,6 @@
           gain: gainNode?.gain?.value,
         });
       }
-
 
       function showStatus(soundName) {
         const statusSection = document.getElementById("statusSection");
@@ -797,13 +833,13 @@
 
       function resetButtonStates() {
         document.querySelectorAll(".sound-btn").forEach((btn) => {
-          btn.classList.remove("bg-emerald-500/30");
+          btn.classList.remove("bg-emerald-500/30", "hover:bg-emerald-500/30");
           btn.classList.add("bg-white/10");
           const icon = btn.querySelector(".sound-icon");
           if (icon) icon.textContent = "🔇";
         });
         document.querySelectorAll(".timer-btn").forEach((btn) => {
-          btn.classList.remove("bg-blue-500/30");
+          btn.classList.remove("bg-blue-500/30", "hover:bg-blue-500/30");
           btn.classList.add("bg-white/10");
         });
       }
@@ -811,8 +847,8 @@
       function highlightButton(button, name) {
         resetButtonStates();
         if (button) {
-          button.classList.remove("bg-white/10");
-          button.classList.add("bg-emerald-500/30");
+          button.classList.remove("bg-white/10", "hover:bg-white/15");
+          button.classList.add("bg-emerald-500/30", "hover:bg-emerald-500/30");
           const icon = button.querySelector(".sound-icon");
           if (icon) icon.textContent = "🔊";
         }
@@ -851,11 +887,17 @@
 
         timerMinutes = min;
 
-        // 타이머 버튼 하이라이트
+        // 타이머 버튼 하이라이트 초기화
         document.querySelectorAll(".timer-btn").forEach((btn) => {
-          btn.classList.remove("bg-blue-500/30");
+          btn.classList.remove("bg-blue-500/30", "hover:bg-blue-500/30");
           btn.classList.add("bg-white/10");
         });
+
+        // 선택된 타이머 버튼 하이라이트 (계속 버튼 포함)
+        if (targetButton) {
+          targetButton.classList.remove("bg-white/10", "hover:bg-white/15");
+          targetButton.classList.add("bg-blue-500/30", "hover:bg-blue-500/30");
+        }
 
         if (min > 0) {
           timerEndTime = Date.now() + min * 60 * 1000;
@@ -863,12 +905,6 @@
             stopAll();
             showNotification("타이머가 종료되었습니다");
           }, min * 60 * 1000);
-
-          // 선택된 타이머 버튼 하이라이트
-          if (targetButton) {
-            targetButton.classList.remove("bg-white/10");
-            targetButton.classList.add("bg-blue-500/30");
-          }
 
           // 1초마다 남은 시간 업데이트
           timerInterval = setInterval(() => {
@@ -947,7 +983,7 @@
         return new Blob([view], { type: "audio/wav" });
       }
 
-      function playBufferAsWav(buffer, label) {
+      function playBufferAsWav(buffer, label, button) {
         stopAll();
         const audio = new Audio();
         const blob = bufferToWavBlob(buffer);
@@ -956,18 +992,27 @@
         audio.loop = true;
         audio.volume = currentVolume;
         audio.preload = "auto";
-        audio.play().then(() => {
-          logAudio("HTMLAudio(wav): play started", label);
-        }).catch((error) => {
-          showNotification("오디오 재생에 실패했습니다. 볼륨을 확인해주세요.");
-          console.error("Audio play error:", error);
-        });
+        audio
+          .play()
+          .then(() => {
+            logAudio("HTMLAudio(wav): play started", label);
+          })
+          .catch((error) => {
+            showNotification(
+              "오디오 재생에 실패했습니다. 볼륨을 확인해주세요."
+            );
+            console.error("Audio play error:", error);
+          });
         source = audio;
-        showStatus(label);
+        if (button) {
+          highlightButton(button, label);
+        } else {
+          showStatus(label);
+        }
       }
 
       function createNoiseBuffer(type) {
-        const bufferSize = ctx.sampleRate * 2;
+        const bufferSize = createLoopBufferSize();
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
         let last = 0;
@@ -981,7 +1026,7 @@
             data[i] = white * 0.6;
           }
         }
-        return buffer;
+        return applyLoopFade(buffer);
       }
 
       function updateOverlayStatus(label) {
@@ -1009,22 +1054,20 @@
         updateStatusLabel();
       }
 
-      
-
       function playNoise(type) {
         logAudio("playNoise", { type });
+        const button = event?.target?.closest(".sound-btn");
+        const label = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
         if (useWavOnIOS) {
           init();
           const buffer = createNoiseBuffer(type);
-          const label = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
-          playBufferAsWav(buffer, label);
+          playBufferAsWav(buffer, label, button);
           return;
         }
         withAudioContext(() => {
           debugBeep();
           const buffer = createNoiseBuffer(type);
 
-          const button = event?.target?.closest(".sound-btn");
           const name = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
           if (customAudio) {
             startOverlayBuffer(buffer, name);
@@ -1043,51 +1086,44 @@
 
       function playLow() {
         logAudio("playLow");
+        const button = event?.target?.closest(".sound-btn");
         if (useWavOnIOS) {
           init();
           const buffer = createSineBuffer(60);
-          playBufferAsWav(buffer, "부드러운 저음");
+          playBufferAsWav(buffer, "부드러운 저음", button);
           return;
         }
         withAudioContext(() => {
           if (customAudio) {
-            stopOverlay();
-            overlaySource = ctx.createOscillator();
-            overlaySource.type = "sine";
-            overlaySource.frequency.value = 60;
-            overlaySource.connect(overlayGainNode);
-            overlayGainNode.gain.value = currentVolume * 0.35;
-            overlaySource.start();
-            overlayName = "부드러운 저음";
-            updateOverlayStatus(overlayName);
-            updateStatusLabel();
+            const buffer = createSineBuffer(60);
+            startOverlayBuffer(buffer, "부드러운 저음");
             return;
           }
 
           stopAll();
-          source = ctx.createOscillator();
-          source.type = "sine";
-          source.frequency.value = 60;
+          const buffer = createSineBuffer(60);
+          source = ctx.createBufferSource();
+          source.buffer = buffer;
+          source.loop = true;
           source.connect(gainNode);
           source.start();
 
-          const button = event?.target?.closest(".sound-btn");
           highlightButton(button, "부드러운 저음");
         });
       }
 
       function playAudio(type) {
         logAudio("playAudio", { type });
+        const button = event?.target?.closest(".sound-btn");
+        const isRain = type === "rain";
+        const label = isRain ? "비 오는 소리" : "파도 소리";
         if (useWavOnIOS) {
           init();
-          const isRain = type === "rain";
           const buffer = isRain ? createRainBuffer() : createWaveBuffer();
-          const label = isRain ? "비 오는 소리" : "파도 소리";
-          playBufferAsWav(buffer, label);
+          playBufferAsWav(buffer, label, button);
           return;
         }
         withAudioContext(() => {
-          const isRain = type === "rain";
           const name = isRain ? "비 오는 소리" : "파도 소리";
           const buffer = isRain ? createRainBuffer() : createWaveBuffer();
 
@@ -1103,14 +1139,13 @@
           source.connect(gainNode);
           source.start();
 
-          const button = event?.target?.closest(".sound-btn");
           highlightButton(button, name);
         });
       }
 
       function createRainBuffer() {
         // 비 소리 생성: 여러 주파수의 노이즈를 조합
-        const bufferSize = ctx.sampleRate * 2;
+        const bufferSize = createLoopBufferSize();
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
 
@@ -1122,12 +1157,12 @@
           data[i] = noise + lowFreq + drop;
         }
 
-        return buffer;
+        return applyLoopFade(buffer);
       }
 
       function createWaveBuffer() {
         // 파도 소리 생성: 저주파 진동 + 노이즈
-        const bufferSize = ctx.sampleRate * 2;
+        const bufferSize = createLoopBufferSize();
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
 
@@ -1139,84 +1174,30 @@
           data[i] = wave + noise + foam;
         }
 
-        return buffer;
+        return applyLoopFade(buffer);
       }
 
       function playNatureSound(type) {
         logAudio("playNatureSound", { type });
+        const button = event?.target?.closest(".sound-btn");
+        const soundNames = {
+          wind: "바람 소리",
+          fireplace: "벽난로 소리",
+          forest: "숲 소리",
+          stream: "시냇물 소리",
+          thunder: "천둥 소리",
+          birds: "아침 새소리",
+          night: "밤 벌레 소리",
+          meadow: "들판 바람 소리",
+        };
         if (useWavOnIOS) {
           init();
-          const soundNames = {
-            wind: "바람 소리",
-            fireplace: "벽난로 소리",
-            forest: "숲 소리",
-            stream: "시냇물 소리",
-            thunder: "천둥 소리",
-            birds: "아침 새소리",
-            night: "밤 벌레 소리",
-            meadow: "들판 바람 소리",
-          };
           const buffer = createNatureBuffer(type);
-          playBufferAsWav(buffer, soundNames[type]);
+          playBufferAsWav(buffer, soundNames[type], button);
           return;
         }
         withAudioContext(() => {
-          const soundNames = {
-            wind: "바람 소리",
-            fireplace: "벽난로 소리",
-            forest: "숲 소리",
-            stream: "시냇물 소리",
-            thunder: "천둥 소리",
-          };
-
-          const bufferSize = ctx.sampleRate * 2;
-          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-          const data = buffer.getChannelData(0);
-
-          for (let i = 0; i < bufferSize; i++) {
-            let sample = 0;
-
-            switch (type) {
-              case "wind":
-                // 바람 소리: 부드러운 고주파 노이즈
-                sample = (Math.random() * 2 - 1) * 0.25;
-                sample *= 0.5 + Math.sin(i * 0.0003) * 0.5;
-                break;
-
-              case "fireplace":
-                // 벽난로 소리: 크랙링 노이즈 + 저주파
-                const crackle =
-                  Math.random() < 0.05 ? (Math.random() * 2 - 1) * 0.4 : 0;
-                const base = Math.sin(i * 0.001) * 0.2;
-                sample = crackle + base;
-                break;
-
-              case "forest":
-                // 숲 소리: 바람 + 새 소리 효과
-                const wind = (Math.random() * 2 - 1) * 0.15;
-                const bird =
-                  Math.random() < 0.003 ? Math.sin(i * 0.01) * 0.2 : 0;
-                sample = wind + bird;
-                break;
-
-              case "stream":
-                // 시냇물 소리: 고주파 노이즈 + 리듬
-                const water = (Math.random() * 2 - 1) * 0.3;
-                const rhythm = Math.sin(i * 0.002) * 0.1;
-                sample = water + rhythm;
-                break;
-
-              case "thunder":
-                // 천둥 소리: 저주파 랜덤 버스트
-                const thunder =
-                  Math.random() < 0.001 ? (Math.random() * 2 - 1) * 0.6 : 0;
-                const rumble = Math.sin(i * 0.0002) * 0.15;
-                sample = thunder + rumble;
-                break;
-            }
-
-            data[i] = sample;
-          }
+          const buffer = createNatureBuffer(type);
 
           if (customAudio) {
             startOverlayBuffer(buffer, soundNames[type]);
@@ -1230,7 +1211,6 @@
           source.connect(gainNode);
           source.start();
 
-          const button = event?.target?.closest(".sound-btn");
           highlightButton(button, soundNames[type]);
         });
       }
@@ -1268,14 +1248,19 @@
         });
 
         // 모바일에서 재생 보장 - 사용자 인터랙션에서 직접 호출되므로 가능
-        audio.play().then(() => {
-          logAudio("HTMLAudio: play started");
-        }).catch((error) => {
-          // 재생 실패 시 사용자에게 알림
-          showNotification("오디오 재생에 실패했습니다. 볼륨을 확인해주세요.");
-          console.error("Audio play error:", error);
-          return;
-        });
+        audio
+          .play()
+          .then(() => {
+            logAudio("HTMLAudio: play started");
+          })
+          .catch((error) => {
+            // 재생 실패 시 사용자에게 알림
+            showNotification(
+              "오디오 재생에 실패했습니다. 볼륨을 확인해주세요."
+            );
+            console.error("Audio play error:", error);
+            return;
+          });
 
         customAudio = audio;
         source = audio;
