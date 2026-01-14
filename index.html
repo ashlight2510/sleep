@@ -125,8 +125,8 @@
     <main class="max-w-md md:max-w-4xl mx-auto px-4 py-6 md:py-10">
       <!-- Header -->
       <header class="text-center mb-6 md:mb-8">
-        <h1 class="text-2xl md:text-3xl font-extrabold">잠들기 도우미</h1>
-        <p class="mt-2 text-sm md:text-base text-white/70">
+        <h1 class="text-2xl md:text-3xl font-extrabold" data-i18n="title">잠들기 도우미</h1>
+        <p class="mt-2 text-sm md:text-base text-white/70" data-i18n="subtitle">
           코골이·주변 소음이 있어도 잠들기 환경을 돕는 소리
         </p>
       </header>
@@ -135,32 +135,32 @@
       <section
         class="hidden md:block rounded-2xl bg-blue-500/10 border border-blue-400/30 p-6 mb-6"
       >
-        <h2 class="text-lg font-semibold mb-3">💤 잠들기 가이드</h2>
+        <h2 class="text-lg font-semibold mb-3" data-i18n="guideTitle">💤 잠들기 가이드</h2>
         <div class="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <h3 class="font-semibold mb-2">시끄러운 환경</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-2" data-i18n="guideNoisyTitle">시끄러운 환경</h3>
+            <p class="text-white/70" data-i18n="guideNoisyDesc">
               핑크 노이즈나 화이트 노이즈를 사용하여 주변 소음을 가려주세요.
               특히 코골이나 도로 소음에 효과적입니다.
             </p>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">조용한 환경</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-2" data-i18n="guideQuietTitle">조용한 환경</h3>
+            <p class="text-white/70" data-i18n="guideQuietDesc">
               부드러운 저음이나 자연 소리(비, 파도)를 사용하면 더 깊은 잠에 빠질
               수 있습니다.
             </p>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">볼륨 조절</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-2" data-i18n="guideVolumeTitle">볼륨 조절</h3>
+            <p class="text-white/70" data-i18n="guideVolumeDesc">
               너무 크지 않게 조절하세요. 보통 40-60% 정도가 적당하며, 주변
               소음보다 약간 크게만 하면 됩니다.
             </p>
           </div>
           <div>
-            <h3 class="font-semibold mb-2">타이머 활용</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-2" data-i18n="guideTimerTitle">타이머 활용</h3>
+            <p class="text-white/70" data-i18n="guideTimerDesc">
               수면 시간에 맞춰 타이머를 설정하면 자동으로 꺼져서 깊은 잠을
               방해하지 않습니다.
             </p>
@@ -176,7 +176,7 @@
           onclick="toggleFrequencyInfo()"
           class="w-full flex items-center justify-between text-left"
         >
-          <h2 class="text-sm md:text-base font-semibold">
+          <h2 class="text-sm md:text-base font-semibold" data-i18n="frequencyTitle">
             🎵 잠들기 좋은 주파수 알아보기
           </h2>
           <span id="frequencyToggle" class="text-xl">▼</span>
@@ -186,37 +186,37 @@
           class="hidden mt-4 space-y-3 text-xs md:text-sm"
         >
           <div class="bg-white/5 rounded-lg p-3">
-            <h3 class="font-semibold mb-1">델타파 (0.5-4Hz)</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-1" data-i18n="deltaTitle">델타파 (0.5-4Hz)</h3>
+            <p class="text-white/70" data-i18n="deltaDesc">
               가장 깊은 수면 단계에서 나타나는 주파수입니다. 귀로 들을 수 없어
               60Hz 정도의 부드러운 저음과 파도 리듬으로 델타 느낌을 만듭니다
               (부드러운 저음, 파도 소리와 잘 어울림).
             </p>
           </div>
           <div class="bg-white/5 rounded-lg p-3">
-            <h3 class="font-semibold mb-1">세타파 (4-8Hz)</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-1" data-i18n="thetaTitle">세타파 (4-8Hz)</h3>
+            <p class="text-white/70" data-i18n="thetaDesc">
               깊은 휴식과 명상 상태에서 나타나며, 잠들기 직전 단계에서 도움이
               됩니다. 핑크 노이즈나 비/파도 같은 느린 파동 소리가 세타 영역
               감각을 만들어 줍니다.
             </p>
           </div>
           <div class="bg-white/5 rounded-lg p-3">
-            <h3 class="font-semibold mb-1">알파파 (8-13Hz)</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-1" data-i18n="alphaTitle">알파파 (8-13Hz)</h3>
+            <p class="text-white/70" data-i18n="alphaDesc">
               편안한 각성 상태로, 긴장을 풀고 잠들 준비를 할 때 도움이 됩니다.
             </p>
           </div>
           <div class="bg-white/5 rounded-lg p-3">
-            <h3 class="font-semibold mb-1">화이트 노이즈</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-1" data-i18n="whiteNoiseTitle">화이트 노이즈</h3>
+            <p class="text-white/70" data-i18n="whiteNoiseDesc">
               모든 주파수를 균등하게 포함하여 주변 소음을 효과적으로 가립니다.
               코골이나 도로 소음 차단에 좋습니다.
             </p>
           </div>
           <div class="bg-white/5 rounded-lg p-3">
-            <h3 class="font-semibold mb-1">핑크 노이즈</h3>
-            <p class="text-white/70">
+            <h3 class="font-semibold mb-1" data-i18n="pinkNoiseTitle">핑크 노이즈</h3>
+            <p class="text-white/70" data-i18n="pinkNoiseDesc">
               고주파보다 저주파에 더 많은 에너지를 가진 노이즈로, 화이트
               노이즈보다 더 자연스럽고 편안합니다.
             </p>
@@ -228,17 +228,19 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-2">지금 주변은 어떤가요?</p>
+        <p class="text-sm text-white/70 mb-2" data-i18n="situationLabel">지금 주변은 어떤가요?</p>
         <div class="grid grid-cols-2 gap-3">
           <button
             onclick="recommend('quiet')"
             class="py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all active:scale-95"
+            data-i18n="situationQuiet"
           >
             지금 조용함
           </button>
           <button
             onclick="recommend('noisy')"
             class="py-3 rounded-xl bg-white/10 hover:bg-white/15 transition-all active:scale-95"
+            data-i18n="situationNoisy"
           >
             지금 시끄러움
           </button>
@@ -254,13 +256,14 @@
           <div class="flex items-center gap-2">
             <span class="text-lg">🔊</span>
             <div>
-              <p class="text-sm font-semibold" id="currentSound">재생 중</p>
+              <p class="text-sm font-semibold" id="currentSound" data-i18n="statusPlaying">재생 중</p>
               <p class="text-xs text-white/70" id="timerStatus"></p>
             </div>
           </div>
           <button
             onclick="stopAll()"
             class="px-3 py-1 rounded-lg bg-white/20 hover:bg-white/30 text-sm"
+            data-i18n="statusStop"
           >
             정지
           </button>
@@ -271,10 +274,10 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-3">내 소리 추가</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="customAudioLabel">내 소리 추가</p>
         <div class="space-y-3">
           <div>
-            <label class="block text-xs text-white/60 mb-2">파일 업로드</label>
+            <label class="block text-xs text-white/60 mb-2" data-i18n="fileUploadLabel">파일 업로드</label>
             <input
               type="file"
               id="audioFileInput"
@@ -285,6 +288,7 @@
             <button
               onclick="document.getElementById('audioFileInput').click()"
               class="w-full py-2 px-4 rounded-lg bg-white/10 hover:bg-white/15 transition-all text-sm flex items-center justify-center gap-2"
+              data-i18n="fileSelect"
             >
               <span>📁</span>
               <span>파일 선택</span>
@@ -292,25 +296,28 @@
             <p id="fileName" class="text-xs text-white/50 mt-2 text-center"></p>
           </div>
           <div id="overlaySection" class="hidden">
-            <label class="block text-xs text-white/60 mb-2"
+            <label class="block text-xs text-white/60 mb-2" data-i18n="overlayLabel"
               >덧씌우기 (선택)</label
             >
             <div class="grid grid-cols-2 gap-2 text-sm">
               <button
                 onclick="addNoiseOverlay('white')"
                 class="py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+                data-i18n="overlayWhite"
               >
                 화이트 노이즈
               </button>
               <button
                 onclick="addNoiseOverlay('pink')"
                 class="py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+                data-i18n="overlayPink"
               >
                 핑크 노이즈
               </button>
               <button
                 onclick="removeNoiseOverlay()"
                 class="py-2 rounded-lg bg-gray-700/50 hover:bg-gray-700/70 transition-all col-span-2"
+                data-i18n="overlayRemove"
               >
                 덧씌우기 제거
               </button>
@@ -319,7 +326,7 @@
               id="overlayStatus"
               class="text-xs text-white/50 mt-2 text-center"
             ></p>
-            <p class="text-[11px] text-white/40 mt-1 text-center">
+            <p class="text-[11px] text-white/40 mt-1 text-center" data-i18n="overlayHint">
               위의 소리·자연 소리 버튼을 눌러도 내 파일 위에 덧씌울 수 있어요
             </p>
           </div>
@@ -330,7 +337,7 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-3">소리 선택</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="soundSelectLabel">소리 선택</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <button
             onclick="playNoise('white')"
@@ -339,7 +346,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              화이트 노이즈 (20Hz~20kHz)
+              <span data-i18n="whiteNoiseBtn">화이트 노이즈 (20Hz~20kHz)</span>
             </span>
           </button>
           <button
@@ -349,7 +356,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              핑크 노이즈 (저음 강화)
+              <span data-i18n="pinkNoiseBtn">핑크 노이즈 (저음 강화)</span>
             </span>
           </button>
           <button
@@ -359,7 +366,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              비 오는 소리 (500~8kHz 느낌)
+              <span data-i18n="rainBtn">비 오는 소리 (500~8kHz 느낌)</span>
             </span>
           </button>
           <button
@@ -369,7 +376,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              파도 소리 (1~200Hz 리듬)
+              <span data-i18n="waveBtn">파도 소리 (1~200Hz 리듬)</span>
             </span>
           </button>
           <button
@@ -379,7 +386,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              부드러운 저음 (60Hz)
+              <span data-i18n="lowBtn">부드러운 저음 (60Hz)</span>
             </span>
           </button>
         </div>
@@ -389,7 +396,7 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-3">🌿 자연 소리</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="natureLabel">🌿 자연 소리</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
           <button
             onclick="playNatureSound('wind')"
@@ -398,7 +405,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              바람 소리 (200~800Hz)
+              <span data-i18n="windBtn">바람 소리 (200~800Hz)</span>
             </span>
           </button>
           <button
@@ -408,7 +415,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              벽난로 소리 (60~200Hz)
+              <span data-i18n="fireplaceBtn">벽난로 소리 (60~200Hz)</span>
             </span>
           </button>
           <button
@@ -418,7 +425,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              숲 소리 (2~4kHz 새소리)
+              <span data-i18n="forestBtn">숲 소리 (2~4kHz 새소리)</span>
             </span>
           </button>
           <button
@@ -428,7 +435,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              시냇물 소리 (300~2kHz)
+              <span data-i18n="streamBtn">시냇물 소리 (300~2kHz)</span>
             </span>
           </button>
           <button
@@ -438,7 +445,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              천둥 소리 (40~120Hz)
+              <span data-i18n="thunderBtn">천둥 소리 (40~120Hz)</span>
             </span>
           </button>
           <button
@@ -448,7 +455,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              아침 새소리 (3~8kHz)
+              <span data-i18n="birdsBtn">아침 새소리 (3~8kHz)</span>
             </span>
           </button>
           <button
@@ -458,7 +465,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              밤 벌레 소리 (2~6kHz)
+              <span data-i18n="nightBtn">밤 벌레 소리 (2~6kHz)</span>
             </span>
           </button>
           <button
@@ -468,7 +475,7 @@
           >
             <span class="flex items-center justify-center gap-2">
               <span class="sound-icon">🔇</span>
-              들판 바람 소리 (200~1kHz)
+              <span data-i18n="meadowBtn">들판 바람 소리 (200~1kHz)</span>
             </span>
           </button>
         </div>
@@ -478,7 +485,7 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-3">볼륨 조절</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="volumeLabel">볼륨 조절</p>
         <div class="flex items-center gap-3">
           <span class="text-lg">🔉</span>
           <input
@@ -498,29 +505,33 @@
       <section
         class="rounded-2xl bg-white/5 border border-white/10 p-4 md:p-6 mb-4"
       >
-        <p class="text-sm text-white/70 mb-3">타이머</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="timerLabel">타이머</p>
         <div class="grid grid-cols-4 gap-2 text-sm">
           <button
             onclick="setTimer(15, this)"
             class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+            data-i18n="timer15"
           >
             15분
           </button>
           <button
             onclick="setTimer(30, this)"
             class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+            data-i18n="timer30"
           >
             30분
           </button>
           <button
             onclick="setTimer(60, this)"
             class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+            data-i18n="timer60"
           >
             1시간
           </button>
           <button
             onclick="setTimer(0, this)"
             class="timer-btn py-2 rounded-lg bg-white/10 hover:bg-white/15 transition-all"
+            data-i18n="timerContinue"
           >
             계속
           </button>
@@ -531,13 +542,14 @@
       <section
         class="rounded-2xl bg-emerald-500/10 border border-emerald-400/30 p-4 md:p-6 mb-6"
       >
-        <p class="font-semibold mb-2">👶 아이 재우기 모드</p>
-        <p class="text-sm text-white/70 mb-3">
+        <p class="font-semibold mb-2" data-i18n="childModeTitle">👶 아이 재우기 모드</p>
+        <p class="text-sm text-white/70 mb-3" data-i18n="childModeDesc">
           갑작스러운 소리 없는, 아주 일정한 소리만 제공합니다
         </p>
         <button
           onclick="childMode()"
           class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-semibold hover:bg-emerald-600 transition-all active:scale-95"
+          data-i18n="childModeStart"
         >
           아이 재우기 시작
         </button>
@@ -547,6 +559,7 @@
       <button
         onclick="stopAll()"
         class="w-full py-3 rounded-xl bg-gray-800 hover:bg-gray-700 mb-6 transition-all active:scale-95"
+        data-i18n="stopBtn"
       >
         정지
       </button>
@@ -556,16 +569,16 @@
         <div
           class="md:hidden rounded-2xl bg-blue-500/10 border border-blue-400/30 p-4 mb-4"
         >
-          <h3 class="text-sm font-semibold mb-2">💡 빠른 가이드</h3>
+          <h3 class="text-sm font-semibold mb-2" data-i18n="quickGuideTitle">💡 빠른 가이드</h3>
           <ul class="text-xs text-white/70 space-y-1">
-            <li>• 시끄러운 환경: 핑크/화이트 노이즈 사용</li>
-            <li>• 조용한 환경: 자연 소리나 부드러운 저음</li>
-            <li>• 볼륨은 40-60% 정도가 적당합니다</li>
-            <li>• 타이머를 설정하면 자동으로 꺼집니다</li>
+            <li data-i18n="quickGuide1">• 시끄러운 환경: 핑크/화이트 노이즈 사용</li>
+            <li data-i18n="quickGuide2">• 조용한 환경: 자연 소리나 부드러운 저음</li>
+            <li data-i18n="quickGuide3">• 볼륨은 40-60% 정도가 적당합니다</li>
+            <li data-i18n="quickGuide4">• 타이머를 설정하면 자동으로 꺼집니다</li>
           </ul>
         </div>
 
-        <p class="text-xs text-white/50 text-center leading-relaxed">
+        <p class="text-xs text-white/50 text-center leading-relaxed" data-i18n-html="footer">
           본 서비스는 의료·수면 치료 목적이 아닌<br />
           잠들기 환경을 돕기 위한 참고용 소리 제공 서비스입니다.
         </p>
@@ -575,6 +588,7 @@
         <a
           href="https://funnyfunny.cloud/"
           class="text-sm text-white/60 hover:text-white"
+          data-i18n="otherServices"
         >
           다른 서비스 보기
         </a>
@@ -787,7 +801,7 @@
         init();
         if (ctx && ctx.state !== "running") {
           resumeContext();
-          showNotification("소리 활성화 중입니다. 한 번 더 눌러주세요.");
+          showNotification(t("audioActivating"));
           logAudio("withAudioContext: blocked, waiting for running", {
             state: ctx?.state,
             unlocked: audioUnlocked,
@@ -826,9 +840,15 @@
         const currentSound = document.getElementById("currentSound");
         if (!currentSound) return;
         const names = [];
-        if (activeBaseName) names.push(activeBaseName);
-        if (overlayName) names.push(overlayName);
-        currentSound.textContent = names.join(" + ") || "재생 중";
+        if (activeBaseName) {
+          const soundNames = t("soundNames");
+          names.push(soundNames[activeBaseName] || activeBaseName);
+        }
+        if (overlayName) {
+          const soundNames = t("soundNames");
+          names.push(soundNames[overlayName] || overlayName);
+        }
+        currentSound.textContent = names.join(" + ") || t("statusPlaying");
       }
 
       function updateTimerDisplay() {
@@ -839,14 +859,15 @@
           if (remaining > 0) {
             const minutes = Math.floor(remaining / 60000);
             const seconds = Math.floor((remaining % 60000) / 1000);
-            timerStatus.textContent = `⏰ 남은 시간: ${minutes}분 ${seconds
-              .toString()
-              .padStart(2, "0")}초`;
+            timerStatus.textContent = t("timerRemaining", {
+              minutes,
+              seconds: seconds.toString().padStart(2, "0"),
+            });
           } else {
-            timerStatus.textContent = "계속 재생";
+            timerStatus.textContent = t("timerContinue");
           }
         } else {
-          timerStatus.textContent = "계속 재생";
+          timerStatus.textContent = t("timerContinue");
         }
       }
 
@@ -983,7 +1004,7 @@
           timerEndTime = Date.now() + min * 60 * 1000;
           timer = setTimeout(() => {
             stopAll();
-            showNotification("타이머가 종료되었습니다");
+            showNotification(t("timerEnded"));
           }, min * 60 * 1000);
 
           // 1초마다 남은 시간 업데이트
@@ -1112,13 +1133,13 @@
       function updateOverlayStatus(label) {
         const overlayStatus = document.getElementById("overlayStatus");
         if (overlayStatus) {
-          overlayStatus.textContent = label ? `✓ ${label} 덧씌움` : "";
+          overlayStatus.textContent = label ? t("overlayStatus", { label }) : "";
         }
       }
 
       function startOverlayBuffer(buffer, label) {
         if (!customAudio) {
-          showNotification("먼저 오디오 파일을 업로드해주세요");
+          showNotification(t("uploadFirst"));
           return;
         }
         stopOverlay();
@@ -1137,7 +1158,8 @@
       function playNoise(type) {
         logAudio("playNoise", { type });
         const button = event?.target?.closest(".sound-btn");
-        const label = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+        const soundNames = t("soundNames");
+        const label = type === "pink" ? soundNames.pink : soundNames.white;
         if (useWavOnIOS) {
           init();
           const buffer = createNoiseBuffer(type);
@@ -1148,7 +1170,7 @@
           debugBeep();
           const buffer = createNoiseBuffer(type);
 
-          const name = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+          const name = type === "pink" ? soundNames.pink : soundNames.white;
           if (customAudio) {
             startOverlayBuffer(buffer, name);
             return;
@@ -1167,16 +1189,18 @@
       function playLow() {
         logAudio("playLow");
         const button = event?.target?.closest(".sound-btn");
+        const soundNames = t("soundNames");
+        const label = soundNames.low;
         if (useWavOnIOS) {
           init();
           const buffer = createSineBuffer(60);
-          playBufferAsWav(buffer, "부드러운 저음", button);
+          playBufferAsWav(buffer, label, button);
           return;
         }
         withAudioContext(() => {
           if (customAudio) {
             const buffer = createSineBuffer(60);
-            startOverlayBuffer(buffer, "부드러운 저음");
+            startOverlayBuffer(buffer, label);
             return;
           }
 
@@ -1188,7 +1212,7 @@
           source.connect(gainNode);
           source.start();
 
-          highlightButton(button, "부드러운 저음");
+          highlightButton(button, label);
         });
       }
 
@@ -1196,7 +1220,8 @@
         logAudio("playAudio", { type });
         const button = event?.target?.closest(".sound-btn");
         const isRain = type === "rain";
-        const label = isRain ? "비 오는 소리" : "파도 소리";
+        const soundNames = t("soundNames");
+        const label = isRain ? soundNames.rain : soundNames.wave;
         if (useWavOnIOS) {
           init();
           const buffer = isRain ? createRainBuffer() : createWaveBuffer();
@@ -1204,7 +1229,7 @@
           return;
         }
         withAudioContext(() => {
-          const name = isRain ? "비 오는 소리" : "파도 소리";
+          const name = isRain ? soundNames.rain : soundNames.wave;
           const buffer = isRain ? createRainBuffer() : createWaveBuffer();
 
           if (customAudio) {
@@ -1260,27 +1285,19 @@
       function playNatureSound(type) {
         logAudio("playNatureSound", { type });
         const button = event?.target?.closest(".sound-btn");
-        const soundNames = {
-          wind: "바람 소리",
-          fireplace: "벽난로 소리",
-          forest: "숲 소리",
-          stream: "시냇물 소리",
-          thunder: "천둥 소리",
-          birds: "아침 새소리",
-          night: "밤 벌레 소리",
-          meadow: "들판 바람 소리",
-        };
+        const soundNames = t("soundNames");
+        const label = soundNames[type] || type;
         if (useWavOnIOS) {
           init();
           const buffer = createNatureBuffer(type);
-          playBufferAsWav(buffer, soundNames[type], button);
+          playBufferAsWav(buffer, label, button);
           return;
         }
         withAudioContext(() => {
           const buffer = createNatureBuffer(type);
 
           if (customAudio) {
-            startOverlayBuffer(buffer, soundNames[type]);
+            startOverlayBuffer(buffer, label);
             return;
           }
 
@@ -1291,7 +1308,7 @@
           source.connect(gainNode);
           source.start();
 
-          highlightButton(button, soundNames[type]);
+          highlightButton(button, label);
         });
       }
 
@@ -1300,7 +1317,7 @@
         if (!file) return;
 
         if (!file.type.startsWith("audio/")) {
-          showNotification("오디오 파일만 업로드 가능합니다");
+          showNotification(t("audioOnly"));
           return;
         }
 
@@ -1323,7 +1340,7 @@
         audio.preload = "auto";
 
         audio.addEventListener("error", () => {
-          showNotification("오디오를 재생할 수 없습니다");
+          showNotification(t("audioError"));
           stopAll();
         });
 
@@ -1335,9 +1352,7 @@
           })
           .catch((error) => {
             // 재생 실패 시 사용자에게 알림
-            showNotification(
-              "오디오 재생에 실패했습니다. 볼륨을 확인해주세요."
-            );
+            showNotification(t("audioPlayError"));
             console.error("Audio play error:", error);
             return;
           });
@@ -1356,11 +1371,12 @@
 
       function addNoiseOverlay(type) {
         if (useWavOnIOS) {
-          showNotification("iOS에서는 덧씌우기가 지원되지 않습니다");
+          showNotification(t("iosOverlayNotSupported"));
           return;
         }
         withAudioContext(() => {
-          const noiseName = type === "pink" ? "핑크 노이즈" : "화이트 노이즈";
+          const soundNames = t("soundNames");
+          const noiseName = type === "pink" ? soundNames.pink : soundNames.white;
           const buffer = createNoiseBuffer(type);
           startOverlayBuffer(buffer, noiseName);
         });
@@ -1372,15 +1388,16 @@
       }
 
       function recommend(state) {
+        const soundNames = t("soundNames");
         if (state === "noisy") {
-          const button = document.querySelector('[data-name="핑크 노이즈"]');
+          const button = document.querySelector(`[data-name="${soundNames.pink}"]`);
           if (button) {
             button.click();
           } else {
             playNoise("pink");
           }
         } else {
-          const button = document.querySelector('[data-name="부드러운 저음"]');
+          const button = document.querySelector(`[data-name="${soundNames.low}"]`);
           if (button) {
             button.click();
           } else {
@@ -1390,10 +1407,12 @@
       }
 
       function childMode() {
+        const soundNames = t("soundNames");
+        const label = soundNames.child;
         if (useWavOnIOS) {
           init();
           const buffer = createSineBuffer(50);
-          playBufferAsWav(buffer, "아이 재우기 모드");
+          playBufferAsWav(buffer, label);
           setTimer(30, null);
           return;
         }
@@ -1405,7 +1424,7 @@
           source.connect(gainNode);
           source.start();
           setTimer(30, null);
-          showStatus("아이 재우기 모드");
+          showStatus(label);
         });
       }
 
@@ -1437,6 +1456,285 @@
           });
         }
       });
+
+      // i18n
+      const translations = {
+        ko: {
+          title: "잠들기 도우미",
+          subtitle: "코골이·주변 소음이 있어도 잠들기 환경을 돕는 소리",
+          guideTitle: "💤 잠들기 가이드",
+          guideNoisyTitle: "시끄러운 환경",
+          guideNoisyDesc: "핑크 노이즈나 화이트 노이즈를 사용하여 주변 소음을 가려주세요. 특히 코골이나 도로 소음에 효과적입니다.",
+          guideQuietTitle: "조용한 환경",
+          guideQuietDesc: "부드러운 저음이나 자연 소리(비, 파도)를 사용하면 더 깊은 잠에 빠질 수 있습니다.",
+          guideVolumeTitle: "볼륨 조절",
+          guideVolumeDesc: "너무 크지 않게 조절하세요. 보통 40-60% 정도가 적당하며, 주변 소음보다 약간 크게만 하면 됩니다.",
+          guideTimerTitle: "타이머 활용",
+          guideTimerDesc: "수면 시간에 맞춰 타이머를 설정하면 자동으로 꺼져서 깊은 잠을 방해하지 않습니다.",
+          frequencyTitle: "🎵 잠들기 좋은 주파수 알아보기",
+          deltaTitle: "델타파 (0.5-4Hz)",
+          deltaDesc: "가장 깊은 수면 단계에서 나타나는 주파수입니다. 귀로 들을 수 없어 60Hz 정도의 부드러운 저음과 파도 리듬으로 델타 느낌을 만듭니다 (부드러운 저음, 파도 소리와 잘 어울림).",
+          thetaTitle: "세타파 (4-8Hz)",
+          thetaDesc: "깊은 휴식과 명상 상태에서 나타나며, 잠들기 직전 단계에서 도움이 됩니다. 핑크 노이즈나 비/파도 같은 느린 파동 소리가 세타 영역 감각을 만들어 줍니다.",
+          alphaTitle: "알파파 (8-13Hz)",
+          alphaDesc: "편안한 각성 상태로, 긴장을 풀고 잠들 준비를 할 때 도움이 됩니다.",
+          whiteNoiseTitle: "화이트 노이즈",
+          whiteNoiseDesc: "모든 주파수를 균등하게 포함하여 주변 소음을 효과적으로 가립니다. 코골이나 도로 소음 차단에 좋습니다.",
+          pinkNoiseTitle: "핑크 노이즈",
+          pinkNoiseDesc: "고주파보다 저주파에 더 많은 에너지를 가진 노이즈로, 화이트 노이즈보다 더 자연스럽고 편안합니다.",
+          situationLabel: "지금 주변은 어떤가요?",
+          situationQuiet: "지금 조용함",
+          situationNoisy: "지금 시끄러움",
+          statusPlaying: "재생 중",
+          statusStop: "정지",
+          customAudioLabel: "내 소리 추가",
+          fileUploadLabel: "파일 업로드",
+          fileSelect: "파일 선택",
+          overlayLabel: "덧씌우기 (선택)",
+          overlayWhite: "화이트 노이즈",
+          overlayPink: "핑크 노이즈",
+          overlayRemove: "덧씌우기 제거",
+          overlayHint: "위의 소리·자연 소리 버튼을 눌러도 내 파일 위에 덧씌울 수 있어요",
+          soundSelectLabel: "소리 선택",
+          whiteNoiseBtn: "화이트 노이즈 (20Hz~20kHz)",
+          pinkNoiseBtn: "핑크 노이즈 (저음 강화)",
+          rainBtn: "비 오는 소리 (500~8kHz 느낌)",
+          waveBtn: "파도 소리 (1~200Hz 리듬)",
+          lowBtn: "부드러운 저음 (60Hz)",
+          natureLabel: "🌿 자연 소리",
+          windBtn: "바람 소리 (200~800Hz)",
+          fireplaceBtn: "벽난로 소리 (60~200Hz)",
+          forestBtn: "숲 소리 (2~4kHz 새소리)",
+          streamBtn: "시냇물 소리 (300~2kHz)",
+          thunderBtn: "천둥 소리 (40~120Hz)",
+          birdsBtn: "아침 새소리 (3~8kHz)",
+          nightBtn: "밤 벌레 소리 (2~6kHz)",
+          meadowBtn: "들판 바람 소리 (200~1kHz)",
+          volumeLabel: "볼륨 조절",
+          timerLabel: "타이머",
+          timer15: "15분",
+          timer30: "30분",
+          timer60: "1시간",
+          timerContinue: "계속",
+          childModeTitle: "👶 아이 재우기 모드",
+          childModeDesc: "갑작스러운 소리 없는, 아주 일정한 소리만 제공합니다",
+          childModeStart: "아이 재우기 시작",
+          stopBtn: "정지",
+          quickGuideTitle: "💡 빠른 가이드",
+          quickGuide1: "• 시끄러운 환경: 핑크/화이트 노이즈 사용",
+          quickGuide2: "• 조용한 환경: 자연 소리나 부드러운 저음",
+          quickGuide3: "• 볼륨은 40-60% 정도가 적당합니다",
+          quickGuide4: "• 타이머를 설정하면 자동으로 꺼집니다",
+          footer: "본 서비스는 의료·수면 치료 목적이 아닌<br />잠들기 환경을 돕기 위한 참고용 소리 제공 서비스입니다.",
+          otherServices: "다른 서비스 보기",
+          timerRemaining: "⏰ 남은 시간: {minutes}분 {seconds}초",
+          timerContinue: "계속 재생",
+          audioActivating: "소리 활성화 중입니다. 한 번 더 눌러주세요.",
+          timerEnded: "타이머가 종료되었습니다",
+          audioOnly: "오디오 파일만 업로드 가능합니다",
+          audioError: "오디오를 재생할 수 없습니다",
+          audioPlayError: "오디오 재생에 실패했습니다. 볼륨을 확인해주세요.",
+          iosOverlayNotSupported: "iOS에서는 덧씌우기가 지원되지 않습니다",
+          overlayStatus: "✓ {label} 덧씌움",
+          uploadFirst: "먼저 오디오 파일을 업로드해주세요",
+          soundNames: {
+            white: "화이트 노이즈",
+            pink: "핑크 노이즈",
+            rain: "비 오는 소리",
+            wave: "파도 소리",
+            low: "부드러운 저음",
+            wind: "바람 소리",
+            fireplace: "벽난로 소리",
+            forest: "숲 소리",
+            stream: "시냇물 소리",
+            thunder: "천둥 소리",
+            birds: "아침 새소리",
+            night: "밤 벌레 소리",
+            meadow: "들판 바람 소리",
+            child: "아이 재우기 모드",
+          },
+        },
+        en: {
+          title: "Sleep Sound Helper",
+          subtitle: "Sounds that help you fall asleep even with noise or snoring",
+          guideTitle: "💤 Sleep Guide",
+          guideNoisyTitle: "Noisy environment",
+          guideNoisyDesc: "Use pink or white noise to mask surrounding sounds. Especially effective for snoring or road noise.",
+          guideQuietTitle: "Quiet environment",
+          guideQuietDesc: "Using soft low tones or natural sounds (rain, waves) can help you fall into deeper sleep.",
+          guideVolumeTitle: "Volume control",
+          guideVolumeDesc: "Adjust it not too loud. Usually 40-60% is appropriate, just slightly louder than surrounding noise.",
+          guideTimerTitle: "Using timer",
+          guideTimerDesc: "Setting a timer according to sleep time will automatically turn off and not disturb deep sleep.",
+          frequencyTitle: "🎵 Learn about sleep-friendly frequencies",
+          deltaTitle: "Delta waves (0.5-4Hz)",
+          deltaDesc: "Frequencies that appear in the deepest sleep stage. Since they cannot be heard by ear, they create a delta feeling with soft low tones around 60Hz and wave rhythms (goes well with soft low tones and wave sounds).",
+          thetaTitle: "Theta waves (4-8Hz)",
+          thetaDesc: "Appear in deep relaxation and meditation states, helpful in the stage just before falling asleep. Slow wave sounds like pink noise or rain/waves create theta area sensations.",
+          alphaTitle: "Alpha waves (8-13Hz)",
+          alphaDesc: "A relaxed awake state, helpful when relaxing tension and preparing to sleep.",
+          whiteNoiseTitle: "White noise",
+          whiteNoiseDesc: "Contains all frequencies equally to effectively mask surrounding sounds. Good for blocking snoring or road noise.",
+          pinkNoiseTitle: "Pink noise",
+          pinkNoiseDesc: "Noise with more energy in low frequencies than high frequencies, more natural and comfortable than white noise.",
+          situationLabel: "How is your environment right now?",
+          situationQuiet: "Quiet now",
+          situationNoisy: "Noisy now",
+          statusPlaying: "Playing",
+          statusStop: "Stop",
+          customAudioLabel: "Add my sound",
+          fileUploadLabel: "File upload",
+          fileSelect: "Select file",
+          overlayLabel: "Overlay (optional)",
+          overlayWhite: "White noise",
+          overlayPink: "Pink noise",
+          overlayRemove: "Remove overlay",
+          overlayHint: "You can also overlay sounds by pressing the sound/nature sound buttons above your file",
+          soundSelectLabel: "Select sound",
+          whiteNoiseBtn: "White noise (20Hz~20kHz)",
+          pinkNoiseBtn: "Pink noise (low frequency enhanced)",
+          rainBtn: "Rain sound (500~8kHz feel)",
+          waveBtn: "Wave sound (1~200Hz rhythm)",
+          lowBtn: "Soft low tone (60Hz)",
+          natureLabel: "🌿 Nature sounds",
+          windBtn: "Wind sound (200~800Hz)",
+          fireplaceBtn: "Fireplace sound (60~200Hz)",
+          forestBtn: "Forest sound (2~4kHz bird sounds)",
+          streamBtn: "Stream sound (300~2kHz)",
+          thunderBtn: "Thunder sound (40~120Hz)",
+          birdsBtn: "Morning bird sounds (3~8kHz)",
+          nightBtn: "Night insect sounds (2~6kHz)",
+          meadowBtn: "Meadow wind sound (200~1kHz)",
+          volumeLabel: "Volume control",
+          timerLabel: "Timer",
+          timer15: "15 min",
+          timer30: "30 min",
+          timer60: "1 hour",
+          timerContinue: "Continue",
+          childModeTitle: "👶 Baby sleep mode",
+          childModeDesc: "Provides only very constant sounds without sudden sounds",
+          childModeStart: "Start baby sleep",
+          stopBtn: "Stop",
+          quickGuideTitle: "💡 Quick guide",
+          quickGuide1: "• Noisy environment: Use pink/white noise",
+          quickGuide2: "• Quiet environment: Natural sounds or soft low tones",
+          quickGuide3: "• Volume around 40-60% is appropriate",
+          quickGuide4: "• Setting a timer will automatically turn off",
+          footer: "This service is not for medical/sleep treatment purposes<br />but a reference sound service to help with sleep environment.",
+          otherServices: "View other services",
+          timerRemaining: "⏰ Time remaining: {minutes}m {seconds}s",
+          timerContinue: "Continue playing",
+          audioActivating: "Activating sound. Please press once more.",
+          timerEnded: "Timer has ended",
+          audioOnly: "Only audio files can be uploaded",
+          audioError: "Cannot play audio",
+          audioPlayError: "Failed to play audio. Please check the volume.",
+          iosOverlayNotSupported: "Overlay is not supported on iOS",
+          overlayStatus: "✓ {label} overlay",
+          uploadFirst: "Please upload an audio file first",
+          soundNames: {
+            white: "White noise",
+            pink: "Pink noise",
+            rain: "Rain sound",
+            wave: "Wave sound",
+            low: "Soft low tone",
+            wind: "Wind sound",
+            fireplace: "Fireplace sound",
+            forest: "Forest sound",
+            stream: "Stream sound",
+            thunder: "Thunder sound",
+            birds: "Morning bird sounds",
+            night: "Night insect sounds",
+            meadow: "Meadow wind sound",
+            child: "Baby sleep mode",
+          },
+        },
+      };
+
+      const defaultLang = "ko";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function t(key, vars = {}) {
+        const langTable = translations[currentLang] || translations.ko;
+        const template = langTable?.[key] ?? translations.ko?.[key] ?? key;
+        if (typeof template !== "string") {
+          return template;
+        }
+        return template.replace(/\{(\w+)\}/g, (_, token) =>
+          vars[token] !== undefined ? vars[token] : `{${token}}`
+        );
+      }
+
+      function applyTranslations() {
+        document.title = t("title");
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        // Update sound names in JavaScript
+        if (typeof window.updateSoundNames === "function") {
+          window.updateSoundNames();
+        }
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = translations[lang] ? lang : defaultLang;
+        currentLang = nextLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : "en";
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      // Update sound names function
+      window.updateSoundNames = function() {
+        const soundNames = t("soundNames");
+        // Update sound name mappings in JavaScript functions
+        if (typeof window.soundNamesMap === "undefined") {
+          window.soundNamesMap = {};
+        }
+        Object.assign(window.soundNamesMap, soundNames);
+      };
+
+      setLang(detectLang(), { updateUrl: false });
     </script>
   
 <ins class="adsbygoogle"
