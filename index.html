@@ -75,12 +75,54 @@
       margin: 16px auto;
         text-align: center;
 }
+    .lang-switch {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      display: inline-flex;
+      gap: 0;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .lang-switch button {
+      border: none;
+      background: transparent;
+      color: rgba(226, 232, 240, 0.6);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 44px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .lang-switch button.active {
+      background: rgba(255, 255, 255, 0.3);
+      color: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
+    }
+    .lang-switch button:not(.active):hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(226, 232, 240, 0.9);
+    }
   </style>
 </head>
 
   <body
     class="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white"
-  ><main class="max-w-md md:max-w-4xl mx-auto px-4 py-6 md:py-10">
+  >
+    <div class="lang-switch" role="tablist" aria-label="Language switcher">
+      <button type="button" data-lang="ko" class="active">KR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <main class="max-w-md md:max-w-4xl mx-auto px-4 py-6 md:py-10">
       <!-- Header -->
       <header class="text-center mb-6 md:mb-8">
         <h1 class="text-2xl md:text-3xl font-extrabold">잠들기 도우미</h1>
